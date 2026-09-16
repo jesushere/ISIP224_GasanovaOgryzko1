@@ -49,7 +49,111 @@ namespace Pr2
             }
 
             Console.WriteLine("товары добавлены");
+            AddProduct(products);
             Console.ReadKey();
+        }
+
+        static void AddProduct(List<Product> products)
+        {
+            Console.WriteLine("\nдобавление нового товара:");
+            Console.WriteLine();
+
+            string name;
+
+            while (true)
+            {
+                Console.Write("введите название товара: ");
+                name = Console.ReadLine();
+
+                if (!string.IsNullOrWhiteSpace(name))
+                {
+                    break;
+                }
+                else
+                {
+                    Console.WriteLine("ошибка!! название не может быть пустым");
+                }
+            }
+
+            double price;
+
+            while (true)
+            {
+                Console.Write("введите цену: ");
+                if (double.TryParse(Console.ReadLine(), out price) && price > 0)
+                {
+                    break;
+                }
+                else
+                {
+                    Console.WriteLine("ошибка!! цена должна быть положительным числом");
+                }
+            }
+
+            int quantity;
+
+            while (true) {
+                Console.Write("введите количество: ");
+                if (int.TryParse(Console.ReadLine(), out quantity) && quantity >= 0)
+                {
+                    break;
+                }
+                else
+                {
+                    Console.WriteLine("ошибка!! количество должно быть неотрицательным");
+                }
+            }
+
+            int categoryNumber;
+
+            while (true) {
+                Console.WriteLine("выберите категорию:");
+                Console.WriteLine("1. еда");
+                Console.WriteLine("2. одежда");
+                Console.WriteLine("3. электроника");
+                Console.Write("введите номер категории: ");
+                if (int.TryParse(Console.ReadLine(), out categoryNumber) && categoryNumber >= 1 && categoryNumber <= 3)
+                {
+                    break;
+                }
+                else
+                {
+                    Console.WriteLine("ошибка!! введите число от 1 до 3");
+                }
+            }
+
+            Category category;
+
+            if (categoryNumber == 1)
+            {
+                category = Category.Food;
+            }
+            else if (categoryNumber == 2)
+            {
+                category = Category.Clothes;
+            }
+            else
+            {
+                category = Category.Electronics;
+            }
+
+            int code = 1;
+
+            foreach (Product product in products)
+            {
+                if (product.Code >= code)
+                {
+                    code = product.Code + 1;
+                }
+            }
+
+            Product newProduct = new Product(code, name, price, quantity, category);
+
+            products.Add(newProduct);
+
+            Console.WriteLine();
+            Console.WriteLine("товар добавлен");
+            Console.WriteLine($"код: {newProduct.Code}, название: {newProduct.Name}, цена: {newProduct.Price} руб., количество: {newProduct.Quantity}, категория: {newProduct.Category}, в наличии: {newProduct.IsInStock}");
         }
     }
 }
