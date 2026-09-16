@@ -42,6 +42,12 @@ namespace Pr2
             products.Add(new Product(4, "молоко", 100, 20, Category.Food));
             products.Add(new Product(5, "джинсы", 3500, 3, Category.Clothes));
 
+            Console.WriteLine("\nсписок товаров:");
+            foreach (Product product in products)
+            {
+                Console.WriteLine($"код: {product.Code}, название: {product.Name}, цена: {product.Price} руб., количество: {product.Quantity}, категория: {product.Category}, в наличии: {product.IsInStock}");
+            }
+
             Console.WriteLine("товары добавлены");
             Console.ReadKey();
         }
