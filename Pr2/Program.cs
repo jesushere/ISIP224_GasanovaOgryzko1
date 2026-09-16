@@ -54,12 +54,14 @@ namespace Pr2
 
             DeleteProducts(products);
 
+            SupplyProducts(products);
+
             Console.ReadKey();
         }
 
         static void AddProduct(List<Product> products)
         {
-            Console.WriteLine("\nдобавление нового товара:");
+            Console.WriteLine("\nдобавление нового товара");
             Console.WriteLine();
 
             string name;
@@ -194,6 +196,57 @@ namespace Pr2
 
             products.Remove(product);
             Console.WriteLine($"товар {product.Name} удален");
+
+        }
+
+        static void SupplyProducts(List<Product> products)
+        {
+            Console.WriteLine();
+            Console.WriteLine("поставка товара");
+
+            Console.WriteLine("введите код товара: ");
+
+            int code;
+
+            while (!int.TryParse(Console.ReadLine(), out code) || code <= 0)
+
+                Console.WriteLine("введите положительное значение");
+            Console.WriteLine("введите код товара: ");
+
+            Product product = null;
+
+            foreach (Product item in products)
+            {
+                if (item.Code == code)
+                {
+                    product = item;
+                    break;
+                }
+            }
+
+            if (product == null)
+            {
+                Console.WriteLine("товар с таким кодом не найден");
+                return;
+            }
+
+            int quantity;
+
+            while (true)
+            {
+                Console.Write("введите кол-во товара для поставки: ");
+
+                if (int.TryParse(Console.ReadLine(), out quantity) && quantity>0)
+                    break;
+                Console.WriteLine("значение должно быть больше 0");
+            }
+
+            product.Quantity += quantity;
+            product.IsInStock = product.Quantity > 0;
+
+            Console.WriteLine($"поставка выполнена");
+            Console.WriteLine($"товар: {product.Name}");
+            Console.WriteLine($"новое кол-во: {product.Quantity}");
 
         }
     }
