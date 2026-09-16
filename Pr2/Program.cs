@@ -49,7 +49,11 @@ namespace Pr2
             }
 
             Console.WriteLine("товары добавлены");
+
             AddProduct(products);
+
+            DeleteProducts(products);
+
             Console.ReadKey();
         }
 
@@ -154,6 +158,43 @@ namespace Pr2
             Console.WriteLine();
             Console.WriteLine("товар добавлен");
             Console.WriteLine($"код: {newProduct.Code}, название: {newProduct.Name}, цена: {newProduct.Price} руб., количество: {newProduct.Quantity}, категория: {newProduct.Category}, в наличии: {newProduct.IsInStock}");
+        }
+
+        static void DeleteProducts(List<Product> products)
+        {
+
+            Console.WriteLine();
+            Console.WriteLine("\nудаление товаров");
+
+            Console.WriteLine("введите код товара: ");
+            int code;
+
+            while (!int.TryParse(Console.ReadLine(), out code) || code <=0)
+            {
+                Console.WriteLine("ошибка!! введите положительное число");  
+                Console.WriteLine("введите код товара: ");
+            }
+
+            Product product = null;
+
+            foreach (Product item in products)
+            {
+                if (item.Code == code)
+                {
+                    product = item;
+                    break;
+                }
+            }   
+
+            if (product == null)
+            {
+                Console.WriteLine("товар с таким кодом не найден");
+                return;
+            }
+
+            products.Remove(product);
+            Console.WriteLine($"товар {product.Name} удален");
+
         }
     }
 }
