@@ -58,6 +58,8 @@ namespace Pr2
 
             SellProduct(products);
 
+            SearchProduct(products);
+
             Console.ReadKey();
         }
 
@@ -100,7 +102,8 @@ namespace Pr2
 
             int quantity;
 
-            while (true) {
+            while (true)
+            {
                 Console.Write("введите количество: ");
                 if (int.TryParse(Console.ReadLine(), out quantity) && quantity >= 0)
                 {
@@ -114,7 +117,8 @@ namespace Pr2
 
             int categoryNumber;
 
-            while (true) {
+            while (true)
+            {
                 Console.WriteLine("выберите категорию:");
                 Console.WriteLine("1. еда");
                 Console.WriteLine("2. одежда");
@@ -252,7 +256,7 @@ namespace Pr2
 
         }
 
-    static void SellProduct(List<Product> products)
+        static void SellProduct(List<Product> products)
         {
             Console.WriteLine();
             Console.WriteLine("продажа товара");
@@ -285,7 +289,8 @@ namespace Pr2
 
             int quantity;
 
-            while (true) {
+            while (true)
+            {
                 Console.Write("введите кол-во товаров для продажи: ");
 
                 if (int.TryParse(Console.ReadLine(), out quantity) && quantity>0)
@@ -309,7 +314,132 @@ namespace Pr2
             Console.WriteLine("продажа выполнена");
             Console.WriteLine($"товар: {product.Name}");
             Console.WriteLine($"осталось на складе: {product.Quantity}");
+        }
 
+        static void ShowProduct(Product product)
+        {
+            Console.WriteLine($"код: {product.Code}");
+            Console.WriteLine($"название: {product.Name}");
+            Console.WriteLine($"цена: {product.Price} руб.");
+            Console.WriteLine($"кол-во: {product.Quantity}");
+            Console.WriteLine($"на складе: {(product.IsInStock ? "да" : "нет")}");
+            Console.WriteLine($"категория: {product.Category}");
+        }
+
+        static void SearchProduct(List<Product> products)
+        {
+            Console.WriteLine();
+            Console.WriteLine("поиск товара");
+            Console.WriteLine("1.поиск по коду");
+            Console.WriteLine("2.поиск по названию");
+            Console.WriteLine("3.поиск по категории");
+
+            Console.WriteLine("выберите способ поиска: ");
+            string choice = Console.ReadLine();
+
+            if (choice == "1")
+            {
+                Console.Write("введите код товара: ");
+                int code;
+
+                if (!int.TryParse(Console.ReadLine(), out code) || code <= 0)
+                {
+                    Console.WriteLine("Неверный код.");
+                    return;
+                }
+
+                Product product = null;
+
+                foreach (Product item in products)
+                {
+                    if (item.Code == code)
+                    {
+                        product = item;
+                        break;
+                    }
+                }
+
+                if (product != null)
+                {
+                    ShowProduct(product);
+                }
+                else
+                {
+                    Console.WriteLine("товар не найден.");
+                }
+            }
+            else if (choice == "2")
+            {
+                Console.Write("введите название товара: ");
+                string name = Console.ReadLine();
+
+                if (string.IsNullOrWhiteSpace(name))
+                {
+                    Console.WriteLine("название не может быть пустым");
+                    return;
+                }
+
+                bool found = false;
+
+                foreach (Product product in products)
+                {
+                    if (product.Name.ToLower().Contains(name.ToLower()))
+                    {
+                        ShowProduct(product);
+                        found = true;
+                    }
+                }
+
+                if (!found)
+                {
+                    Console.WriteLine("товары не найдены");
+                }
+            }
+            else if (choice == "3")
+            {
+                Console.WriteLine("1.продукты");
+                Console.WriteLine("2.одежда");
+                Console.WriteLine("3.электроника");
+
+                Console.Write("выберите категорию: ");
+                int categoryNumber;
+
+                if (!int.TryParse(Console.ReadLine(), out categoryNumber) ||
+                    categoryNumber < 1 || categoryNumber > 3)
+                {
+                    Console.WriteLine("неверная категория");
+                    return;
+                }
+
+                Category category;
+
+                if (categoryNumber == 1)
+                    category = Category.Food;
+                else if (categoryNumber == 2)
+                    category = Category.Clothes;
+                else
+                    category = Category.Electronics;
+
+                bool found = false;
+
+                foreach (Product product in products)
+                {
+                    if (product.Category == category)
+                    {
+                        ShowProduct(product);
+                        found = true;
+                    }
+                }
+
+                if (!found)
+                {
+                    Console.WriteLine("товары этой категории не найдены");
+                }
+            }
+            else
+            {
+                Console.WriteLine("такого варианта поиска нет");
+            }
         }
     }
 }
