@@ -175,7 +175,7 @@ namespace Pr2
 
             while (!int.TryParse(Console.ReadLine(), out code) || code <=0)
             {
-                Console.WriteLine("ошибка!! введите положительное число");  
+                Console.WriteLine("ошибка!! введите положительное число");
                 Console.WriteLine("введите код товара: ");
             }
 
@@ -188,7 +188,7 @@ namespace Pr2
                     product = item;
                     break;
                 }
-            }   
+            }
 
             if (product == null)
             {
@@ -251,14 +251,13 @@ namespace Pr2
             Console.WriteLine($"новое кол-во: {product.Quantity}"); ///господииииииииии
 
         }
-    }
 
     static void SellProduct(List<Product> products)
         {
             Console.WriteLine();
             Console.WriteLine("продажа товара");
 
-            Console.Write("введите код товара");
+            Console.Write("введите код товара: ");
 
             int code;
 
@@ -278,7 +277,7 @@ namespace Pr2
                     break;
                 }
             }
-            if ( product == null)
+            if (product == null)
             {
                 Console.WriteLine("товар с таким кодом не найден");
                 return;
@@ -297,5 +296,20 @@ namespace Pr2
             if (quantity > product.Quantity)
             {
                 Console.WriteLine("недостаточно товара на складе"); //вот тут стоп
-
+                Console.WriteLine($"доступно: {product.Quantity}");
+                return;
             }
+
+            product.Quantity -= quantity;
+            if (product.Quantity == 0)
+            {
+                product.IsInStock = false;
+            }
+
+            Console.WriteLine("продажа выполнена");
+            Console.WriteLine($"товар: {product.Name}");
+            Console.WriteLine($"осталось на складе: {product.Quantity}");
+
+        }
+    }
+}
