@@ -56,6 +56,8 @@ namespace Pr2
 
             SupplyProducts(products);
 
+            SellProduct(products);
+
             Console.ReadKey();
         }
 
@@ -246,8 +248,54 @@ namespace Pr2
 
             Console.WriteLine($"поставка выполнена");
             Console.WriteLine($"товар: {product.Name}");
-            Console.WriteLine($"новое кол-во: {product.Quantity}");
+            Console.WriteLine($"новое кол-во: {product.Quantity}"); ///господииииииииии
 
         }
     }
-}
+
+    static void SellProduct(List<Product> products)
+        {
+            Console.WriteLine();
+            Console.WriteLine("продажа товара");
+
+            Console.Write("введите код товара");
+
+            int code;
+
+            while (!int.TryParse((string)Console.ReadLine(), out code) || code <= 0)
+            {
+                Console.WriteLine("введите положительное значение");
+                Console.WriteLine("введите код товара: ");
+            }
+
+            Product product = null;
+
+            foreach (Product item in products)
+            {
+                if (item.Code == code)
+                {
+                    product = item;
+                    break;
+                }
+            }
+            if ( product == null)
+            {
+                Console.WriteLine("товар с таким кодом не найден");
+                return;
+            }
+
+            int quantity;
+
+            while (true) {
+                Console.Write("введите кол-во товаров для продажи: ");
+
+                if (int.TryParse(Console.ReadLine(), out quantity) && quantity>0)
+                    break;
+                Console.WriteLine("значение должно быть больше 0");
+            }
+
+            if (quantity > product.Quantity)
+            {
+                Console.WriteLine("недостаточно товара на складе"); //вот тут стоп
+
+            }
