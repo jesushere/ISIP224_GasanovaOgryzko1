@@ -50,15 +50,51 @@ namespace Pr2
 
             Console.WriteLine("товары добавлены");
 
-            AddProduct(products);
+            while (true)
+            {
+                Console.WriteLine();
+                Console.WriteLine("1.добавить товар");
+                Console.WriteLine("2.удалить товар");
+                Console.WriteLine("3.заказать поставку");
+                Console.WriteLine("4.продать товар");
+                Console.WriteLine("5.найти товар");
+                Console.WriteLine("0.выход");
 
-            DeleteProducts(products);
+                Console.Write("выберите команду: ");
+                string choice = Console.ReadLine();
 
-            SupplyProducts(products);
+                switch (choice)
+                {
+                    case "1":
+                        AddProduct(products);
+                        break;
 
-            SellProduct(products);
+                    case "2":
+                        DeleteProducts(products);
+                        break;
 
-            SearchProduct(products);
+                    case "3":
+                        SupplyProducts(products);
+                        break;
+
+                    case "4":
+                        SellProduct(products);
+                        break;
+
+                    case "5":
+                        SearchProduct(products);
+                        break;
+
+                    case "0":
+                        Console.WriteLine("программа завершена.");
+                        return;
+
+                    default:
+                        Console.WriteLine("такой команды нет");
+                        break;
+                }
+            }
+
 
             Console.ReadKey();
         }
