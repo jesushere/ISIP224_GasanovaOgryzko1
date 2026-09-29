@@ -12,6 +12,7 @@ class Program
         Console.WriteLine("слов: " + words.Count);
         Console.WriteLine("самое короткое слово: " + FindShortestWord(words));
         Console.WriteLine("самое длинное слово: " + FindLongestWord(words));
+        Console.WriteLine("всего предложений: " + CountSentences(text));
     }
 
     static string ReadText()
