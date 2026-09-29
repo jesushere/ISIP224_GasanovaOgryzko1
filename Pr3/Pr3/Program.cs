@@ -87,4 +87,34 @@ class Program
         return longest;
     }
 
+    static int CountSentences(string text)
+    {
+        int count = 0;
+        bool hasLetters= false; //это мы проверяем на всякий случай есть ли вообще буквы в самом начале предложения
+        
+        foreach (char c in text)
+        {
+            if (char.IsLetter(c))
+            {
+                hasLetters= true;
+            }
+
+            else if (c == '.' || c == '!' || c == '?')
+            {
+                if (hasLetters)
+                {
+                    count++;
+                    hasLetters= false;
+                }
+            }
+        }
+
+        if (hasLetters)
+        {
+            count++;    //это если предложение не закончилось .
+        }
+
+        return count;
+    }
+
 }
