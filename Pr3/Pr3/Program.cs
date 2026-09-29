@@ -185,6 +185,21 @@ class Program
 
         Console.WriteLine();
     }
+
+    //зафиксируем статистику одного текста сначала
+    class TextStats
+    {
+        public string Text;
+        public int WordCount;
+        public string Shortest;
+        public string Longest;
+        public int SentenceCount;
+        public int Vowels;
+        public int Consonants;
+        public Dictionary<char, int> Frequency;
+    }
+
+    static TextStats Analyze(string text)
 }
 
 
