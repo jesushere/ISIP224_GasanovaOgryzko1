@@ -5,22 +5,52 @@ class Program
 {
     static void Main()
     {
-        string text = ReadText();
-        Console.WriteLine("длина текста: " + text.Length);
+        List<TextStats> history = new List<TextStats>();
 
-        List<string> words = GetWords(text);
-        Console.WriteLine("слов: " + words.Count);
-        Console.WriteLine("самое короткое слово: " + FindShortestWord(words));
-        Console.WriteLine("самое длинное слово: " + FindLongestWord(words));
-        Console.WriteLine("всего предложений: " + CountSentences(text));
+        while (true)
+        {
+            Console.WriteLine();
+            Console.WriteLine("1. ввести новый текст");
+            Console.WriteLine("2. показать статистику прошлых текстов");
+            Console.WriteLine("0. выход");
+            string choise = Console.ReadLine();
 
-        int volwes, consonants;
-        CountVowelsAndConsonants(text, out volwes, out consonants);
-        Console.WriteLine("гласных букв: " + volwes + " согласных букв: " + consonants);
+            if (choise == "1")
+            {
+                string text = ReadText();
+                TextStats stats = Analyze(text);
+                history.Add(stats);
+                PrintStats(stats);
+            }
 
-        Dictionary<char, int> freq = CountLetterFrequency(text);
-        Console.WriteLine("частота букв: ");
-        PrintLetterFrequency(freq);
+            else if (choise == "2")
+            {
+                if (history.Count == 0)
+                {
+                    Console.WriteLine("пока пусто");
+                }
+
+                else
+                {
+                    for (int i = 0; i < history.Count; i++)
+                    {
+                        Console.WriteLine();
+                        Console.WriteLine((i+1) + " текст");
+                        PrintStats(history[i]);
+                    }
+                }
+            }
+
+            else if (choise == "0")
+            {
+                break;
+            }
+
+            else
+            {
+                Console.WriteLine("ЗАПУЩЕНО УДАЛЕНИЕ ПАПКИ System32!!!!!!!");
+            }
+        }
     
     
     }
@@ -186,24 +216,48 @@ class Program
         Console.WriteLine();
     }
 
-    //зафиксируем статистику одного текста сначала
-    class TextStats
+    static TextStats Analyze(string text)
     {
-        public string Text;
-        public int WordCount;
-        public string Shortest;
-        public string Longest;
-        public int SentenceCount;
-        public int Vowels;
-        public int Consonants;
-        public Dictionary<char, int> Frequency;
+        TextStats stats = new TextStats();
+        List<string> words = GetWords(text);
+
+        stats.Text = text;
+        stats.WordCount = words.Count;
+        stats.Shortest = FindShortestWord(words);
+        stats.Longest = FindLongestWord(words);
+        stats.SentenceCount = CountSentences(text);
+        CountVowelsAndConsonants(text, out stats.Vowels, out stats.Consonants);
+        stats.Frequency = CountLetterFrequency(text);
+
+        return stats;
     }
 
-    static TextStats Analyze(string text)
+    static void PrintStats(TextStats s)
+    {
+        Console.WriteLine("всего слов: " + s.WordCount);
+        Console.WriteLine("самое короткое слово: " + s.Shortest);
+        Console.WriteLine("самое  длинное слово: " + s.Longest);
+        Console.WriteLine("кол-во предложений: " + s.SentenceCount);
+        Console.WriteLine("колво гласных: " + s.Vowels + ", согласных: " + s.Consonants);
+        Console.WriteLine("частота букв: ");
+        PrintLetterFrequency(s.Frequency);
+    }
+}
+
+//зафиксируем статистику одного текста сначала
+class TextStats
+{
+    public string Text;
+    public int WordCount;
+    public string Shortest;
+    public string Longest;
+    public int SentenceCount;
+    public int Vowels;
+    public int Consonants;
+    public Dictionary<char, int> Frequency;
 }
 
 
 
-
-
 //Понятные инструкции сокращают число вопросов. Удобный интерфейс снижает барьеры для новичков. Балансировка распределяет запросы равномерно. Откат к предыдущей версии восстанавливает работу быстро. Понятная документация ускоряет подключение партнёров. При грамотном подходе, аккуратная работа с данными поддерживает прозрачность работы системы в повседневной эксплуатации. Распределение нагрузки поддерживает стабильную работу. На практике, регулярное обновление систем поддерживает точность обработки данных без усложнения системы.
+//Porro ducimus sit cillum veniam autem sunt perferendis voluptatem maxime aute. Veniam dolor unde accusamus pariatur ex neque incididunt ullamco minima. In nemo occaecat aspernatur cupidatat recusandae alias quasi sunt. Possimus ullamco vero quasi magna pariatur iusto quis. Officia recusandae sed quo placeat deserunt eiusmod quisquam occaecat quibusdam vero nostrum occaecat. Laboris aut corporis nostrum eiusmod placeat non facere.
