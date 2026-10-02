@@ -20,6 +20,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 
 namespace Practic4
 {
@@ -59,9 +60,39 @@ namespace Practic4
 
     class Program
     {
+        static readonly List<Book> books = new List<Book>();
+
+        static int nextId = 1;
+
+        static Book AddBook(string title, string author, Genre genre, int year, decimal price)
+        {
+            var book = new Book(nextId++, title, author, genre, year, price);
+            books.Add(book);
+            return book;
+        }
+
+        static void SeedBooks()
+        {
+            AddBook("Трудно быть Богом", "Аркадий и Борис Стругацкие", Genre.Фантастика, 1964, 399m);
+            AddBook("Проект «Аве Мария»", "Энди Вейер", Genre.Фантастика, 2021, 949m);
+            AddBook("Отель с привидениями", "Уилки Коллинз", Genre.Детектив, 1878, 359m);
+            AddBook("Убийства по алфавиту", "Агата Кристи", Genre.Детектив, 1936, 499m);
+            AddBook("Бегущий человек", "Стивен Кинг", Genre.Триллер, 1982, 317m);
+            AddBook("Ангелы и демоны", "Дэн Браун", Genre.Триллер, 2000, 579m);
+            AddBook("Триумфальная арка", "Эрих Мария Ремарк", Genre.Роман, 1945, 2397m);
+            AddBook("Скорбь сатаны", "Мария Корелли", Genre.Роман, 1895, 1840m);
+            AddBook("Эгоист", "Джордж Мередит", Genre.Драма, 1879, 317m);
+            AddBook("Дочь священника", "Джордж Оруэл", Genre.Драма, 1935, 233m);
+        }
+
+
         static void Main()
         {
+            Console.OutputEncoding = Encoding.UTF8;
+            Console.InputEncoding = Encoding.UTF8;
 
+            SeedBooks();
+            Console.WriteLine($"количество книг: {books.Count}");
         }
     }
 }
