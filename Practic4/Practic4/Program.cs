@@ -166,6 +166,58 @@ namespace Practic4
             Console.WriteLine("книга удалена: " + book);
         }
 
+        static void FindBooks()
+        {
+            Console.WriteLine("найти книгу по:");
+            Console.WriteLine("1. названию");
+            Console.WriteLine("2. жанру");
+            Console.WriteLine("3. автору");
+            Console.WriteLine("введите номер команды: ");
+            string choice = Console.ReadLine();
+
+            IEnumerable<Book> result = null;
+
+            switch (choice)
+            {
+                case "1":
+                    Console.Write("введите название книги: ");
+                    string title = Console.ReadLine()?.Trim();
+                    result = books.Where(b => b.Title.Contains(title, StringComparison.OrdinalIgnoreCase));
+                    break;
+                case "2":
+                    Console.WriteLine("доступные жанры: фантастика, роман, триллер, детектив, драма");
+                    Console.Write("жанр: ");
+                    string genreStr = Console.ReadLine()?.Trim();
+                    if (!Enum.TryParse(genreStr, true, out Genre genre))
+                    {
+                        Console.WriteLine("неверный жанр");
+                        return;
+                    }
+                    result = books.Where(b => b.Genre == genre);
+                    break;
+                case "3":
+                    Console.Write("введите автора книги: ");
+                    string author = Console.ReadLine()?.Trim();
+                    result = books.Where(b => b.Author.Contains(author, StringComparison.OrdinalIgnoreCase));
+                    break;
+                default:
+                    Console.WriteLine("неверный выбор");
+                    return;
+            }
+
+            if (result == null || !result.Any())
+            {
+                Console.WriteLine("книги не найдены");
+                return;
+            }
+
+            Console.WriteLine("найденные книги:");
+            foreach (var book in result)
+            {
+                Console.WriteLine(book);
+            }
+        }
+
             static void Main()
         {
             Console.OutputEncoding = Encoding.UTF8;
@@ -187,6 +239,7 @@ namespace Practic4
                         DeleteBookByID();
                         break;
                     case "3":
+                        FindBooks();
                         break;
                     case "4":
                         break;
