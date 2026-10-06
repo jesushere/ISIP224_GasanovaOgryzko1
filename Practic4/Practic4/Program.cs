@@ -10,8 +10,8 @@
 что можно деталать:
 -добавлять книу(запросить параметры у юзера, идентиф-р назн-ся автомат-ки) done
 -удалалять книгу по идент-ру done
--находить книги(по назв-ю, жанру, должны быть все варианты писка) и выводить всю инфу
--сортировать книги по назв-ю/году(обе команды)
+-находить книги(по назв-ю, жанру, должны быть все варианты писка) и выводить всю инфу done
+-сортировать книги по назв-ю/году(обе команды) done
 -выводить самую рич и самую чип книгу
 -группировать по авторам и выводить кол-во книг у каждого автора
 
@@ -218,6 +218,26 @@ namespace Practic4
             }
         }
 
+        static void SortBooksByTitle()
+        {
+            var sortedBooks = books.OrderBy(b => b.Title).ToList();
+            Console.WriteLine("книги отсортированы по названию:");
+            foreach (var book in sortedBooks)
+            {
+                Console.WriteLine(book);
+            }
+        }
+
+        static void SortBooksByYear()
+        {
+            var sortedBooks = books.OrderBy(b => b.Year).ToList();
+            Console.WriteLine("книги отсортированы по году издания:");
+            foreach (var book in sortedBooks)
+            {
+                Console.WriteLine(book);
+            }
+        }
+
             static void Main()
         {
             Console.OutputEncoding = Encoding.UTF8;
@@ -242,8 +262,10 @@ namespace Practic4
                         FindBooks();
                         break;
                     case "4":
+                        SortBooksByTitle();
                         break;
                     case "5":
+                        SortBooksByYear();
                         break;
                     case "6":
                         break;
