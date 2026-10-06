@@ -8,7 +8,7 @@
 -цена
 
 что можно деталать:
--добавлять книу(запросить параметры у юзера, идентиф-р назн-ся автомат-ки)
+-добавлять книу(запросить параметры у юзера, идентиф-р назн-ся автомат-ки) done
 -удалалять книгу по идент-ру
 -находить книги(по назв-ю, жанру, должны быть все варианты писка) и выводить всю инфу
 -сортировать книги по назв-ю/году(обе команды)
@@ -99,8 +99,54 @@ namespace Practic4
             Console.WriteLine("ведите номер команды: ");
         }
 
+        static void AddBookInteractive()
+        {
+            Console.Write("введите название книги: ");
 
-        static void Main()
+            string title = Console.ReadLine()?.Trim();
+            if (string.IsNullOrEmpty(title))
+            {
+                Console.WriteLine("значение не может быть пустым");
+                return;
+            }
+
+            Console.Write("введите автора книги: ");
+
+            string author = Console.ReadLine()?.Trim();
+            if (string.IsNullOrEmpty(author)) {
+                Console.WriteLine("значение не может быть пустым");
+                return;
+            }
+
+            Console.WriteLine("доступные жанры: фантастика, роман, триллер, детектив, драма");
+            Console.Write("жанр: ");
+
+            string genreStr = Console.ReadLine()?.Trim();
+            if (!Enum.TryParse(genreStr, true, out Genre genre))
+            {
+                Console.WriteLine("неверный жанр");
+                return;
+            }
+
+            Console.Write("год издания: ");
+            if(!int.TryParse(Console.ReadLine(), out int year) || year < 0 || year > DateTime.Now.Year)
+            {
+                Console.WriteLine("неверный год");
+                return;
+            }
+
+            Console.Write("цена: ");
+            if(!decimal.TryParse(Console.ReadLine(), out decimal price) || price < 0)
+            {
+                Console.WriteLine("неверная цена");
+                return;
+            }
+
+            var book = AddBook(title, author, genre, year, price);
+            Console.WriteLine("книга добавлена: " + book);
+        }
+
+            static void Main()
         {
             Console.OutputEncoding = Encoding.UTF8;
             Console.InputEncoding = Encoding.UTF8;
@@ -115,6 +161,7 @@ namespace Practic4
                 switch (choice)
                 {
                     case "1":
+                        AddBookInteractive();
                         break;
                     case "2":
                         break;
