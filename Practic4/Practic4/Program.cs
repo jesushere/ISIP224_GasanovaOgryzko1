@@ -9,7 +9,7 @@
 
 что можно деталать:
 -добавлять книу(запросить параметры у юзера, идентиф-р назн-ся автомат-ки) done
--удалалять книгу по идент-ру
+-удалалять книгу по идент-ру done
 -находить книги(по назв-ю, жанру, должны быть все варианты писка) и выводить всю инфу
 -сортировать книги по назв-ю/году(обе команды)
 -выводить самую рич и самую чип книгу
@@ -146,6 +146,26 @@ namespace Practic4
             Console.WriteLine("книга добавлена: " + book);
         }
 
+        static void DeleteBookByID()
+        {
+            Console.WriteLine("введите идентификатор книги для удаления: ");
+            if(!int.TryParse(Console.ReadLine(), out int id))
+            {
+                Console.WriteLine("неверный идентификатор");
+                return;
+            }
+
+            var book = books.FirstOrDefault(b => b.Id == id);
+            if(book == null)
+            {
+                Console.WriteLine("книга с таким идентификатором не найдена");
+                return;
+            }
+
+            books.Remove(book);
+            Console.WriteLine("книга удалена: " + book);
+        }
+
             static void Main()
         {
             Console.OutputEncoding = Encoding.UTF8;
@@ -164,6 +184,7 @@ namespace Practic4
                         AddBookInteractive();
                         break;
                     case "2":
+                        DeleteBookByID();
                         break;
                     case "3":
                         break;
