@@ -238,6 +238,21 @@ namespace Practic4
             }
         }
 
+        static void ShowMinMaxPrice()
+        {
+            if (books.Count == 0)
+            {
+                Console.WriteLine("список книг пуст");
+                return;
+            }
+
+            var maxBook = books.OrderByDescending(b => b.Price).First();
+            var minBook = books.OrderBy(b => b.Price).First();
+
+            Console.WriteLine("самая дорогая книга: " + maxBook);
+            Console.WriteLine("самая дешевая книга: " + minBook);
+        }
+
             static void Main()
         {
             Console.OutputEncoding = Encoding.UTF8;
@@ -268,6 +283,7 @@ namespace Practic4
                         SortBooksByYear();
                         break;
                     case "6":
+                        ShowMinMaxPrice();
                         break;
                     case "7":
                         break;
