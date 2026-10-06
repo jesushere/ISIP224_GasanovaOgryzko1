@@ -12,7 +12,7 @@
 -удалалять книгу по идент-ру done
 -находить книги(по назв-ю, жанру, должны быть все варианты писка) и выводить всю инфу done
 -сортировать книги по назв-ю/году(обе команды) done
--выводить самую рич и самую чип книгу
+-выводить самую рич и самую чип книгу done
 -группировать по авторам и выводить кол-во книг у каждого автора
 
 юзать LINQ, список запол-ть 5 тест-ми д-ми, проверка всех возм-х  зн-й*/
@@ -253,6 +253,16 @@ namespace Practic4
             Console.WriteLine("самая дешевая книга: " + minBook);
         }
 
+        static void GroupBooksByAuthor()
+        {
+            var groups = books.GroupBy(b => b.Author);
+
+            Console.WriteLine("кол-во книг по авторам:");
+            foreach (var group in groups)
+            {
+                Console.WriteLine($"{group.Key}: {group.Count()} книг");
+            }
+        }
             static void Main()
         {
             Console.OutputEncoding = Encoding.UTF8;
@@ -286,6 +296,7 @@ namespace Practic4
                         ShowMinMaxPrice();
                         break;
                     case "7":
+                        GroupBooksByAuthor();
                         break;
                     case "0":
                         return;
