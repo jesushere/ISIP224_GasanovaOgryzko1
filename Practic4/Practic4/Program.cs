@@ -13,7 +13,7 @@
 -находить книги(по назв-ю, жанру, должны быть все варианты писка) и выводить всю инфу done
 -сортировать книги по назв-ю/году(обе команды) done
 -выводить самую рич и самую чип книгу done
--группировать по авторам и выводить кол-во книг у каждого автора
+-группировать по авторам и выводить кол-во книг у каждого автора done
 
 юзать LINQ, список запол-ть 5 тест-ми д-ми, проверка всех возм-х  зн-й*/
 
@@ -95,6 +95,7 @@ namespace Practic4
             Console.WriteLine("5. сортировать книги по году издания");
             Console.WriteLine("6. вывести самую дорогую и самую дешёвую книгу");
             Console.WriteLine("7. группировать книги по авторам");
+            Console.WriteLine("8. импорт книг блоком");
             Console.WriteLine("0. выход");
             Console.WriteLine("ведите номер команды: ");
         }
@@ -263,7 +264,63 @@ namespace Practic4
                 Console.WriteLine($"{group.Key}: {group.Count()} книг");
             }
         }
-            static void Main()
+
+        static void ImportBooksBlock()
+        {
+            Console.WriteLine("введите путь в формате: название;автор;жанр;год;цена");
+
+            while (true)
+            {
+                string line = Console.ReadLine();
+                if (string.IsNullOrWhiteSpace(line))
+                {
+                    break;
+                }
+
+                string[] parts = line.Split(';');
+                if (parts.Length != 5)
+                {
+                    Console.WriteLine("неверный формат строки");
+                    continue;
+                }
+
+                string title = parts[0].Trim();
+                string author = parts[1].Trim();
+                string genreStr = parts[2].Trim();
+                string yearStr = parts[3].Trim();
+                string priceStr = parts[4].Trim();
+
+                if (string.IsNullOrEmpty(title) || string.IsNullOrEmpty(author) || string.IsNullOrEmpty(genreStr) || string.IsNullOrEmpty(yearStr) || string.IsNullOrEmpty(priceStr))
+                {
+                    Console.WriteLine("значения не могут быть пустыми");
+                    continue;
+                }
+
+                if (!Enum.TryParse(genreStr, true, out Genre genre))
+                {
+                    Console.WriteLine("неверный жанр");
+                    continue;
+                }
+
+                if (!int.TryParse(yearStr, out int year) || year < 0 || year > DateTime.Now.Year)
+                {
+                    Console.WriteLine("неверный год");
+                    continue;
+                }
+
+                if (!decimal.TryParse(priceStr, out decimal price) || price < 0)
+                {
+                    Console.WriteLine("неверная цена");
+                    continue;
+                }
+
+                var book = AddBook(title, author, genre, year, price);
+                Console.WriteLine("книга добавлена: " + book);
+            }
+        }
+
+
+                static void Main()
         {
             Console.OutputEncoding = Encoding.UTF8;
             Console.InputEncoding = Encoding.UTF8;
@@ -298,6 +355,9 @@ namespace Practic4
                     case "7":
                         GroupBooksByAuthor();
                         break;
+                    case "8":
+                        ImportBooksBlock();
+                        break; //dop zadanie pro import
                     case "0":
                         return;
                     default:
