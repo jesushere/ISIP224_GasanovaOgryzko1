@@ -11,7 +11,7 @@ namespace OrderByRem
             string connectionString = @"Server=localhost\SQLEXPRESS02;" + "Database=OrderByRemDatabase;" + "Integrated Security=True;" +  "TrustServerCertificate=True;";
 
             try
-            {
+            { 
                 using (SqlConnection connection = new SqlConnection(connectionString))
                 {
                     connection.Open();
