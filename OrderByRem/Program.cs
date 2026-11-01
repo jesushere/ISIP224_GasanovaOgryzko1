@@ -236,7 +236,7 @@ namespace OrderByRem
             //hashing the password
             byte[] salt = RandomNumberGenerator.GetBytes(16);
 
-            byte[] hash = Rfc2898DeriveBytes.Pbkdf2(password, salt, 100000, HashAlgorithmName.SHA3_256, 32);
+            byte[] hash = Rfc2898DeriveBytes.Pbkdf2(password, salt, 100000, HashAlgorithmName.SHA256, 32);
 
             string passwordHash = "100000:" + Convert.ToBase64String(salt) + ":" + Convert.ToBase64String(hash);
 
@@ -256,6 +256,7 @@ namespace OrderByRem
                         command.Parameters.AddWithValue("@PasswordHash", passwordHash);
 
                         int newUserId = (int)command.ExecuteScalar();
+                        EnsureCart(newUserId);
 
                         Console.WriteLine("successful registration!");
                     }
@@ -314,8 +315,7 @@ namespace OrderByRem
             string userName = Console.ReadLine();
 
             Console.Write("enter password: ");
-            string password = Console.ReadLine();
-
+            string password = CheckPassword();
             string request = @"SELECT Id,UserName, PasswordHash
                                FROM [User]
                                WHERE UserName = @UserName;";
@@ -364,6 +364,8 @@ namespace OrderByRem
                             currentUserStatus = userId;
                             currentUserName = storedUserName;
 
+                            EnsureCart(currentUserStatus);
+
                             Console.WriteLine($"welcome back, {currentUserName}!");
                         }
                     }
@@ -378,6 +380,33 @@ namespace OrderByRem
                 Console.WriteLine("stored password data is invalid");
             }
         
+        }
+
+        static void EnsureCart(int userID)
+        {
+            string request = @"IF NOT EXISTS(SELECT 1 FROM Cart WHERE UserID = @UserID)
+                                             BEGIN
+                                                 INSERT INTO Cart (UserID)
+                                                 VALUES (@UserID);
+                                             END;";
+            try
+            {
+                using (SqlConnection connection = new SqlConnection(connectionString))
+                {
+                    connection.Open();
+
+                    using (SqlCommand command =
+                        new SqlCommand(request, connection))
+                    {
+                        command.Parameters.AddWithValue("@UserId", userID);
+                        command.ExecuteNonQuery();
+                    }
+                }
+            }
+            catch (SqlException ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
         }
     }
 }
