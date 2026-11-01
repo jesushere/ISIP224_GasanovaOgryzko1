@@ -26,6 +26,8 @@ namespace OrderByRem
                 Console.WriteLine("3. sing up");
                 Console.WriteLine("4. login");
                 Console.WriteLine("5. logout");
+                Console.WriteLine("6. view cart");
+                Console.WriteLine("7. add product to cart");
                 Console.WriteLine("0. exit");
                 Console.Write("\n choose an option:");
 
@@ -54,6 +56,12 @@ namespace OrderByRem
                         currentUserStatus = 0;
                         currentUserName = "";
                         Console.WriteLine("you've logged out");
+                        break;
+                    case "6":
+                        ShowCart();
+                        break;
+                    case "7":
+                        AddToCart();
                         break;
                     case "0":
                         return;
@@ -155,7 +163,7 @@ namespace OrderByRem
                                 Console.WriteLine($"Price: {Convert.ToDecimal(reader["Price"]):F2} RUB");
                                 Console.WriteLine($"Description: {reader["Description"]}");
                             }
-                            
+
                             if (!found)
                             {
                                 Console.WriteLine("no products found in this category");
@@ -379,7 +387,7 @@ namespace OrderByRem
             {
                 Console.WriteLine("stored password data is invalid");
             }
-        
+
         }
 
         static void EnsureCart(int userID)
@@ -400,6 +408,118 @@ namespace OrderByRem
                     {
                         command.Parameters.AddWithValue("@UserId", userID);
                         command.ExecuteNonQuery();
+                    }
+                }
+            }
+            catch (SqlException ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+        }
+
+        static void AddToCart()
+        {
+            if (currentUserStatus == 0)
+            {
+                Console.WriteLine("you must be logged in to add products to the cart");
+                return;
+            }
+
+            Console.WriteLine("\n-ADD TO CART-");
+
+            Console.Write("enter product ID to add to cart: ");
+
+            if (!int.TryParse(Console.ReadLine(), out int productId))
+            {
+                Console.WriteLine("error! enter a valid value");
+                return;
+            }
+            string request = @"INSERT INTO CartItem (CartId, ProductId, AddedAt)
+                               SELECT Cart.Id, Product.Id, GETDATE()
+                               FROM Cart
+                               INNER JOIN Product
+                                   ON Product.Id = @ProductId
+                               WHERE Cart.UserId = @UserId
+                               AND NOT EXISTS (SELECT 1 FROM CartItem WHERE CartItem.CartId = Cart.Id AND CartItem.ProductId = Product.Id);";
+            try
+            {
+                using (SqlConnection connection = new SqlConnection(connectionString))
+                {
+                    connection.Open();
+                    using (SqlCommand command = new SqlCommand(request, connection))
+                    {
+                        command.Parameters.AddWithValue("@UserId", currentUserStatus);
+                        command.Parameters.AddWithValue("@ProductId", productId);
+                        int rowsAffected = command.ExecuteNonQuery();
+                        if (rowsAffected > 0)
+                        {
+                            Console.WriteLine("product added to cart successfully!");
+                        }
+                        else
+                        {
+                            Console.WriteLine("failed to add product to cart. make sure the product ID is correct");
+                        }
+                    }
+                }
+            }
+            catch (SqlException ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+        }
+
+        static void ShowCart()
+        {
+            if (currentUserStatus == 0)
+            {
+                Console.WriteLine("you must be logged in to view the cart");
+                return;
+            }
+            Console.WriteLine("\n-CART-");
+            string request = @"SELECT Product.Id, Product.ProductName, Product.Description, Product.Price, Category.CategoryName, CartItem.AddedAt
+                               FROM Cart
+                               INNER JOIN CartItem ON Cart.Id = CartItem.CartId
+                               INNER JOIN Product ON CartItem.ProductId = Product.Id
+                               INNER JOIN Category ON Product.CategoryId = Category.Id
+                               WHERE Cart.UserId = @UserId
+                               ORDER BY CartItem.AddedAt DESC;";
+            try
+            {
+                using (SqlConnection connection = new SqlConnection(connectionString))
+                {
+                    connection.Open();
+                    using (SqlCommand command = new SqlCommand(request, connection))
+                    {
+                        command.Parameters.AddWithValue("@UserId", currentUserStatus);
+                        using (SqlDataReader reader = command.ExecuteReader())
+                        {
+                            decimal total = 0;
+                            bool found = false;
+
+                            while (reader.Read())
+                            {
+                                found = true;
+
+                                decimal price = Convert.ToDecimal(reader["Price"]);
+
+                                total += price;
+
+                                Console.WriteLine($"ID: {reader["Id"]}");
+                                Console.WriteLine($"Product: {reader["ProductName"]}");
+                                Console.WriteLine($"Category: {reader["CategoryName"]}");
+                                Console.WriteLine($"Price: {price:F2} RUB");
+                                Console.WriteLine($"Added: {reader["AddedAt"]}");
+                            }
+
+                            if (!found)
+                            {
+                                Console.WriteLine("your cart is empty");
+                            }
+                            else
+                            {
+                                Console.WriteLine($"TOTAL: {total:F2} RUB");
+                            }
+                        }
                     }
                 }
             }
