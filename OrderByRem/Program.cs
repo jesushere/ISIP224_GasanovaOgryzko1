@@ -28,6 +28,7 @@ namespace OrderByRem
                 Console.WriteLine("5. logout");
                 Console.WriteLine("6. view cart");
                 Console.WriteLine("7. add product to cart");
+                Console.WriteLine("8. remove product from cart");
                 Console.WriteLine("0. exit");
                 Console.Write("\n choose an option:");
 
@@ -62,6 +63,9 @@ namespace OrderByRem
                         break;
                     case "7":
                         AddToCart();
+                        break;
+                    case "8":
+                        RemoveFromCart();
                         break;
                     case "0":
                         return;
@@ -519,6 +523,53 @@ namespace OrderByRem
                             {
                                 Console.WriteLine($"TOTAL: {total:F2} RUB");
                             }
+                        }
+                    }
+                }
+            }
+            catch (SqlException ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+        }
+
+        static void RemoveFromCart()
+        {
+            if (currentUserStatus == 0)
+            {
+                Console.WriteLine("you must be logged in to remove products from the cart");
+                return;
+            }
+            Console.WriteLine("\n-REMOVE FROM CART-");
+            Console.Write("enter product ID to remove from cart: ");
+            if (!int.TryParse(Console.ReadLine(), out int productId))
+            {
+                Console.WriteLine("error! enter a valid value");
+                return;
+            }
+            string request = @"DELETE CartItem
+                               FROM CartItem
+                               INNER JOIN Cart
+                                   ON CartItem.CartId = Cart.Id
+                               WHERE Cart.UserId = @UserId
+                               AND CartItem.ProductId = @ProductId;";
+            try
+            {
+                using (SqlConnection connection = new SqlConnection(connectionString))
+                {
+                    connection.Open();
+                    using (SqlCommand command = new SqlCommand(request, connection))
+                    {
+                        command.Parameters.AddWithValue("@UserId", currentUserStatus);
+                        command.Parameters.AddWithValue("@ProductId", productId);
+                        int rowsAffected = command.ExecuteNonQuery();
+                        if (rowsAffected > 0)
+                        {
+                            Console.WriteLine("product removed from cart successfully!");
+                        }
+                        else
+                        {
+                            Console.WriteLine("failed to remove product from cart. make sure the product ID is correct and exists in your cart");
                         }
                     }
                 }
