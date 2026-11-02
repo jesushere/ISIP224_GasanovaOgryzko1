@@ -18,7 +18,7 @@ namespace OrderByRem
         {
             while (true)
             {
-                Console.WriteLine("ORDER BY REM");
+                Console.WriteLine("\nORDER BY REM");
                 Console.WriteLine("---------------------------------");
                 Console.WriteLine("the resale place");
                 Console.WriteLine("\n1. view all products");
@@ -29,6 +29,8 @@ namespace OrderByRem
                 Console.WriteLine("6. view cart");
                 Console.WriteLine("7. add product to cart");
                 Console.WriteLine("8. remove product from cart");
+                Console.WriteLine("9. buy one product");
+                Console.WriteLine("10. buy entire cart");
                 Console.WriteLine("0. exit");
                 Console.Write("\n choose an option:");
 
@@ -66,6 +68,12 @@ namespace OrderByRem
                         break;
                     case "8":
                         RemoveFromCart();
+                        break;
+                    case "9":
+                        PurchaseProduct();
+                        break;
+                    case "10":
+                        PurchaseCart();
                         break;
                     case "0":
                         return;
@@ -577,6 +585,301 @@ namespace OrderByRem
             catch (SqlException ex)
             {
                 Console.WriteLine(ex.Message);
+            }
+        }
+
+        static int ChoosePickupPoint()
+        {
+            Console.WriteLine("\n-PICKUP POINTS-");
+
+            string query = @"SELECT Id, PointName, Address
+                             FROM PickupPoint
+                             ORDER BY Id;";
+            try
+            {
+                using (SqlConnection connection = new SqlConnection(connectionString))
+                {
+                    connection.Open();
+
+                    using (SqlCommand command = new SqlCommand(query, connection))
+                    using (SqlDataReader reader = command.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            Console.WriteLine(
+                                $"{reader["Id"]}. {reader["PointName"]}");
+
+                            Console.WriteLine(
+                                $"   Address: {reader["Address"]}");
+                        }
+                    }
+                }
+
+                Console.Write("\nchoose pickup point ID: ");
+
+                if (!int.TryParse(Console.ReadLine(), out int pointId))
+                {
+                    Console.WriteLine("invalid ID!");
+                    return 0;
+                }
+
+                return pointId;
+            }
+            catch (SqlException ex)
+            {
+                Console.WriteLine(ex.Message);
+                return 0;
+            }
+        }
+
+        static void PurchaseProduct()
+        {
+            if (currentUserStatus == 0)
+            {
+                Console.WriteLine("you must be logged in to purchase products");
+                return;
+            }
+
+            Console.WriteLine("\n-PURCHASE PRODUCT-");
+
+            Console.Write("enter product ID: ");
+
+            if (!int.TryParse(Console.ReadLine(), out int productId))
+            {
+                Console.WriteLine("invalid product ID!");
+                return;
+            }
+
+            int pickupPointId = ChoosePickupPoint();
+
+            if (pickupPointId <= 0)
+                return;
+
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                connection.Open();
+
+                using (SqlTransaction transaction = connection.BeginTransaction())
+                {
+                    try
+                    {
+                        //checking pickup point
+                        string checkPoint = @"SELECT COUNT(*)
+                                              FROM PickupPoint
+                                              WHERE Id = @PointId;";
+
+                        using (SqlCommand command = new SqlCommand(checkPoint, connection, transaction))
+                        {
+                            command.Parameters.AddWithValue("@PointId", pickupPointId);
+
+                            if ((int)command.ExecuteScalar() == 0)
+                            {
+                                Console.WriteLine("pickup point not found!");
+                                transaction.Rollback();
+                                return;
+                            }
+                        }
+
+                        //creating order
+                        string orderQuery = @"INSERT INTO [Order] (UserId, PickupPointId, CreatedAt)
+                                              VALUES (@UserId, @PointId, GETDATE());
+                                              SELECT CAST(SCOPE_IDENTITY() AS INT);";
+
+                        int orderId;
+
+                        using (SqlCommand command = new SqlCommand(orderQuery, connection, transaction))
+                        {
+                            command.Parameters.AddWithValue("@UserId", currentUserStatus);
+                            command.Parameters.AddWithValue("@PointId", pickupPointId);
+
+                            orderId = (int)command.ExecuteScalar();
+                        }
+
+                        //adding product to order
+                        string itemQuery = @"INSERT INTO OrderItem (OrderId, ProductId, UnitPriceAtPurchase)
+                                             SELECT @OrderId, Product.Id, Product.Price
+                                             FROM CartItem
+                                             INNER JOIN Cart
+                                                 ON CartItem.CartId = Cart.Id
+                                             INNER JOIN Product
+                                                 ON CartItem.ProductId = Product.Id
+                                             WHERE Cart.UserId = @UserId
+                                             AND Product.Id = @ProductId AND NOT EXISTS
+                                             (SELECT 1 FROM OrderItem WHERE OrderItem.ProductId = Product.Id);";
+
+                        int rowsAffected;
+
+                        using (SqlCommand command = new SqlCommand(itemQuery, connection, transaction))
+                        {
+                            command.Parameters.AddWithValue("@OrderId", orderId);
+                            command.Parameters.AddWithValue("@UserId", currentUserStatus);
+                            command.Parameters.AddWithValue("@ProductId", productId);
+
+                            rowsAffected = command.ExecuteNonQuery();
+                        }
+
+                        if (rowsAffected == 0)
+                        {
+                            transaction.Rollback();
+
+                            Console.WriteLine("product is not in your cart or has already been sold!");
+                            return;
+                        }
+
+                        //removing product from cart
+                        string deleteQuery = @"DELETE CartItem
+                                               FROM CartItem
+                                               INNER JOIN Cart
+                                                   ON CartItem.CartId = Cart.Id
+                                               WHERE Cart.UserId = @UserId
+                                               AND CartItem.ProductId = @ProductId;";
+
+                        using (SqlCommand command = new SqlCommand(deleteQuery, connection, transaction))
+                        {
+                            command.Parameters.AddWithValue("@UserId", currentUserStatus);
+                            command.ExecuteNonQuery();
+                        }
+
+                        transaction.Commit();
+
+                        Console.WriteLine("\npurchase successful!");
+                        Console.WriteLine($"order ID: {orderId}");
+                    }
+                    catch (SqlException ex)
+                    {
+                        transaction.Rollback();
+                        Console.WriteLine(ex.Message);
+                    }
+                }
+            }
+        }
+
+        static void PurchaseCart()
+        {
+            if (currentUserStatus == 0)
+            {
+                Console.WriteLine("you must be logged in to purchase products");
+                return;
+            }
+            Console.WriteLine("\n-PURCHASE ENTIRE CART-");
+            int pickupPointId = ChoosePickupPoint();
+            if (pickupPointId <= 0)
+                return;
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                connection.Open();
+                using (SqlTransaction transaction = connection.BeginTransaction())
+                {
+                    try
+                    {
+                        //checking pickup point
+                        string checkPoint = @"SELECT COUNT(*)
+                                                      FROM PickupPoint
+                                                      WHERE Id = @PointId;";
+                        using (SqlCommand command = new SqlCommand(checkPoint, connection, transaction))
+                        {
+                            command.Parameters.AddWithValue("@PointId", pickupPointId);
+                            if ((int)command.ExecuteScalar() == 0)
+                            {
+                                Console.WriteLine("pickup point not found!");
+                                transaction.Rollback();
+                                return;
+                            }
+                        }
+                        //creating order
+                        string orderQuery = @"INSERT INTO [Order] (UserId, PickupPointId, CreatedAt)
+                                                      VALUES (@UserId, @PointId, GETDATE());
+                                                      SELECT CAST(SCOPE_IDENTITY() AS INT);";
+                        int orderId;
+                        using (SqlCommand command = new SqlCommand(orderQuery, connection, transaction))
+                        {
+                            command.Parameters.AddWithValue("@UserId", currentUserStatus);
+                            command.Parameters.AddWithValue("@PointId", pickupPointId);
+                            orderId = (int)command.ExecuteScalar();
+                        }
+                        //adding products to order
+                        string itemQuery = @"INSERT INTO OrderItem (OrderId, ProductId, UnitPriceAtPurchase)
+                                                     SELECT @OrderId, Product.Id, Product.Price
+                                                     FROM CartItem
+                                                     INNER JOIN Cart
+                                                         ON CartItem.CartId = Cart.Id
+                                                     INNER JOIN Product
+                                                         ON CartItem.ProductId = Product.Id
+                                                     WHERE Cart.UserId = @UserId AND NOT EXISTS
+                                                     (SELECT 1 FROM OrderItem WHERE OrderItem.ProductId = Product.Id);";
+                        int addedItems;
+
+                        using (SqlCommand command = new SqlCommand(itemQuery, connection, transaction))
+                        {
+                            command.Parameters.AddWithValue("@OrderId", orderId);
+                            command.Parameters.AddWithValue("@UserId", currentUserStatus);
+                            addedItems = command.ExecuteNonQuery();
+                        }
+
+                        //checking whether all products were available
+                        string countQuery = @"SELECT COUNT(*)
+                                                      FROM CartItem
+                                                      INNER JOIN Cart
+                                                          ON CartItem.CartId = Cart.Id
+                                                      WHERE Cart.UserId = @UserId;";
+
+                        int cartCount;
+
+                        using (SqlCommand command = new SqlCommand(countQuery, connection, transaction))
+                        {
+                            command.Parameters.AddWithValue("@UserId", currentUserStatus);
+                            cartCount = (int)command.ExecuteScalar();
+                        }
+
+                        if (cartCount == 0 || addedItems != cartCount)
+                        {
+                            transaction.Rollback();
+
+                            Console.WriteLine("cart is empty or some products have already been sold!");
+
+                            return;
+                        }
+
+                        //clearing cart
+                        string deleteQuery = @"DELETE CartItem
+                                                       FROM CartItem
+                                                       INNER JOIN Cart
+                                                           ON CartItem.CartId = Cart.Id
+                                                       WHERE Cart.UserId = @UserId;";
+
+                        using (SqlCommand command = new SqlCommand(deleteQuery, connection, transaction))
+                        {
+                            command.Parameters.AddWithValue("@UserId", currentUserStatus);
+
+                            command.ExecuteNonQuery();
+                        }
+
+                        //calculating total
+                        string totalQuery = @"SELECT SUM(UnitPriceAtPurchase)
+                                                      FROM OrderItem
+                                                      WHERE OrderId = @OrderId;";
+
+                        decimal total;
+
+                        using (SqlCommand command = new SqlCommand(totalQuery, connection, transaction))
+                        {
+                            command.Parameters.AddWithValue("@OrderId", orderId);
+                            total = Convert.ToDecimal(command.ExecuteScalar());
+                        }
+
+                        transaction.Commit();
+
+                        Console.WriteLine("\npurchase successful!");
+                        Console.WriteLine($"order ID: {orderId}");
+                        Console.WriteLine($"products purchased: {addedItems}");
+                        Console.WriteLine($"total: {total:F2} RUB");
+                    }
+                    catch (SqlException ex)
+                    {
+                        transaction.Rollback();
+                        Console.WriteLine(ex.Message);
+                    }
+                }
             }
         }
     }
