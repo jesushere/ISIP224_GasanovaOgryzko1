@@ -8,6 +8,13 @@ namespace OrderByRem
 {
     class Program
     {
+        static void PrintLine(string text, ConsoleColor color)
+        {
+            Console.ForegroundColor = color;
+            Console.WriteLine(text);
+            Console.ResetColor();
+        }
+
         static string connectionString = @"Server=localhost\SQLEXPRESS02;" + "Database=OrderByRemDatabase;" + "Integrated Security=True;" + "TrustServerCertificate=True;";
 
         //workin' on registration n loggin' into the acc
@@ -18,9 +25,9 @@ namespace OrderByRem
         {
             while (true)
             {
-                Console.WriteLine("\nORDER BY REM");
-                Console.WriteLine("---------------------------------");
-                Console.WriteLine("the resale place");
+                Console.WriteLine("\n                               ORDER BY REM");
+                Console.WriteLine("                      ---------------------------------");
+                Console.WriteLine("                             the resale place");
                 Console.WriteLine("\n1. view all products");
                 Console.WriteLine("2. view products by category");
                 Console.WriteLine("3. sing up");
@@ -31,14 +38,17 @@ namespace OrderByRem
                 Console.WriteLine("8. remove product from cart");
                 Console.WriteLine("9. buy one product");
                 Console.WriteLine("10. buy entire cart");
+                Console.WriteLine("11. order history");
                 Console.WriteLine("0. exit");
-                Console.Write("\n choose an option:");
+                Console.Write("\nchoose an option: ");
 
                 string choise = Console.ReadLine();
 
                 if (currentUserStatus != 0)
                 {
-                    Console.WriteLine($"you logged in as {currentUserName}");
+                    PrintLine($"you logged in as {currentUserName}", ConsoleColor.DarkGray);
+                    PrintLine("\npress any key to return to the main menu...", ConsoleColor.DarkGray);
+                    Console.ReadKey();
                 }
 
                 switch (choise)
@@ -58,7 +68,9 @@ namespace OrderByRem
                     case "5":
                         currentUserStatus = 0;
                         currentUserName = "";
-                        Console.WriteLine("you've logged out");
+                        PrintLine("you've logged out", ConsoleColor.Green);
+                        PrintLine("\npress any key to return to the main menu...", ConsoleColor.DarkGray);
+                        Console.ReadKey();
                         break;
                     case "6":
                         ShowCart();
@@ -75,10 +87,15 @@ namespace OrderByRem
                     case "10":
                         PurchaseCart();
                         break;
+                    case "11":
+                        ShowOrderHistory();
+                        break;
                     case "0":
                         return;
                     default:
-                        Console.WriteLine("such a choise doesn't exist");
+                        PrintLine("such a choise doesn't exist", ConsoleColor.DarkGray);
+                        PrintLine("\npress any key to return to the main menu...", ConsoleColor.DarkGray);
+                        Console.ReadKey();
                         break;
                 }
             }
@@ -86,7 +103,7 @@ namespace OrderByRem
 
         static void ShowProducts()
         {
-            Console.WriteLine("-product catallog-");
+            PrintLine("\n-PRODUCT CATALOG-", ConsoleColor.Yellow);
 
             string request = @"SELECT Product.Id, Product.ProductName, Product.Description, Product.Price, Category.CategoryName
                                FROM Product
@@ -118,11 +135,13 @@ namespace OrderByRem
             {
                 Console.WriteLine(ex.Message);
             }
+            PrintLine("\npress any key to return to the main menu...", ConsoleColor.DarkGray);
+            Console.ReadKey();
         }
 
         static void ShowProductByCategory()
         {
-            Console.WriteLine("-CATEGORIES-");
+            PrintLine("\n-CATEGORIES-", ConsoleColor.Yellow);
 
             string categoryRequest = @"SELECT Id, CategoryName
                                        FROM Category
@@ -146,7 +165,7 @@ namespace OrderByRem
 
                     if (!int.TryParse(Console.ReadLine(), out int categoryId))
                     {
-                        Console.WriteLine("error! enter a valid value");
+                        PrintLine("error! enter a valid value", ConsoleColor.Red);
                         return;
                     }
 
@@ -178,7 +197,7 @@ namespace OrderByRem
 
                             if (!found)
                             {
-                                Console.WriteLine("no products found in this category");
+                                    PrintLine("no products found in this category", ConsoleColor.Red);
                             }
                         }
                     }
@@ -189,18 +208,20 @@ namespace OrderByRem
             {
                 Console.WriteLine(ex.Message);
             }
+            PrintLine("\npress any key to return to the main menu...", ConsoleColor.DarkGray);
+            Console.ReadKey();
         }
 
         static void SingUpUser()
         {
-            Console.WriteLine("-REGISTRATION-");
+            PrintLine("\n-REGISTRATION-", ConsoleColor.Yellow);
 
             Console.Write("enter username: ");
             string userName = Console.ReadLine();
 
             if (string.IsNullOrWhiteSpace(userName))
             {
-                Console.WriteLine("username cannot be empty!");
+                PrintLine("username cannot be empty!", ConsoleColor.Red);
                 return;
             }
 
@@ -222,7 +243,7 @@ namespace OrderByRem
 
                         if (count > 0)
                         {
-                            Console.WriteLine("еhis username is already taken!");
+                            PrintLine("this username is already taken!", ConsoleColor.Red);
                             return;
                         }
                     }
@@ -243,13 +264,13 @@ namespace OrderByRem
 
             if (password != passwordC)
             {
-                Console.WriteLine("password don't mutch!");
+                PrintLine("password don't mutch!", ConsoleColor.Red);
                 return;
             }
 
             if (password.Length < 8)
             {
-                Console.WriteLine("password must contain at least 8 characters!");
+                PrintLine("password must contain at least 8 characters!", ConsoleColor.Red);
                 return;
             }
 
@@ -278,20 +299,22 @@ namespace OrderByRem
                         int newUserId = (int)command.ExecuteScalar();
                         EnsureCart(newUserId);
 
-                        Console.WriteLine("successful registration!");
+                        PrintLine("successful registration!", ConsoleColor.Green);
                     }
                 }
             }
 
             catch (SqlException ex) when (ex.Number == 2627 || ex.Number == 2601)
             {
-                Console.WriteLine("this username is already taken");
+                PrintLine("this username is already taken", ConsoleColor.Red);
             }
 
             catch (SqlException ex)
             {
                 Console.WriteLine(ex.Message);
             }
+            PrintLine("\npress any key to return to the main menu...", ConsoleColor.DarkGray);
+            Console.ReadKey();
         }
 
         static string CheckPassword() //readin' the password without displayin' the char's
@@ -329,7 +352,7 @@ namespace OrderByRem
 
         static void LoginUser()
         {
-            Console.WriteLine("-LOGIN-");
+            PrintLine("\n-LOGIN-", ConsoleColor.Yellow);
 
             Console.Write("enter username: ");
             string userName = Console.ReadLine();
@@ -366,7 +389,7 @@ namespace OrderByRem
 
                             if (parts.Length != 3 || !int.TryParse(parts[0], out int iterations))
                             {
-                                Console.WriteLine("stored password data is invalid");
+                                PrintLine("stored password data is invalid", ConsoleColor.Red);
                                 return;
                             }
 
@@ -377,7 +400,7 @@ namespace OrderByRem
 
                             if (!CryptographicOperations.FixedTimeEquals(actualHash, expectedHash))
                             {
-                                Console.WriteLine("invalid username or password");
+                                PrintLine("invalid username or password", ConsoleColor.Red);
                                 return;
                             }
 
@@ -386,7 +409,7 @@ namespace OrderByRem
 
                             EnsureCart(currentUserStatus);
 
-                            Console.WriteLine($"welcome back, {currentUserName}!");
+                            PrintLine($"welcome back, {currentUserName}!", ConsoleColor.Green);
                         }
                     }
                 }
@@ -397,9 +420,10 @@ namespace OrderByRem
             }
             catch (FormatException)
             {
-                Console.WriteLine("stored password data is invalid");
+                PrintLine("stored password data is invalid", ConsoleColor.Red);
             }
-
+            PrintLine("\npress any key to return to the main menu...", ConsoleColor.DarkGray);
+            Console.ReadKey();
         }
 
         static void EnsureCart(int userID)
@@ -415,8 +439,7 @@ namespace OrderByRem
                 {
                     connection.Open();
 
-                    using (SqlCommand command =
-                        new SqlCommand(request, connection))
+                    using (SqlCommand command = new SqlCommand(request, connection))
                     {
                         command.Parameters.AddWithValue("@UserId", userID);
                         command.ExecuteNonQuery();
@@ -433,26 +456,38 @@ namespace OrderByRem
         {
             if (currentUserStatus == 0)
             {
-                Console.WriteLine("you must be logged in to add products to the cart");
+                PrintLine("you must be logged in to add products to the cart", ConsoleColor.Red);
+                PrintLine("\npress any key to return to the main menu...", ConsoleColor.DarkGray);
+                Console.ReadKey();
                 return;
             }
 
-            Console.WriteLine("\n-ADD TO CART-");
+            PrintLine("\n-ADD TO CART-", ConsoleColor.Yellow);
 
             Console.Write("enter product ID to add to cart: ");
 
             if (!int.TryParse(Console.ReadLine(), out int productId))
             {
-                Console.WriteLine("error! enter a valid value");
+                PrintLine("error! enter a valid value", ConsoleColor.Red);
                 return;
             }
             string request = @"INSERT INTO CartItem (CartId, ProductId, AddedAt)
-                               SELECT Cart.Id, Product.Id, GETDATE()
-                               FROM Cart
-                               INNER JOIN Product
-                                   ON Product.Id = @ProductId
-                               WHERE Cart.UserId = @UserId
-                               AND NOT EXISTS (SELECT 1 FROM CartItem WHERE CartItem.CartId = Cart.Id AND CartItem.ProductId = Product.Id);";
+                   SELECT Cart.Id, Product.Id, GETDATE()
+                   FROM Cart
+                   INNER JOIN Product
+                       ON Product.Id = @ProductId
+                   WHERE Cart.UserId = @UserId
+                   AND NOT EXISTS (
+                       SELECT 1
+                       FROM CartItem
+                       WHERE CartItem.CartId = Cart.Id
+                       AND CartItem.ProductId = Product.Id
+                   )
+                   AND NOT EXISTS (
+                       SELECT 1
+                       FROM OrderItem
+                       WHERE OrderItem.ProductId = Product.Id
+                   );";
             try
             {
                 using (SqlConnection connection = new SqlConnection(connectionString))
@@ -465,11 +500,11 @@ namespace OrderByRem
                         int rowsAffected = command.ExecuteNonQuery();
                         if (rowsAffected > 0)
                         {
-                            Console.WriteLine("product added to cart successfully!");
+                            PrintLine("product added to cart successfully!", ConsoleColor.Green);
                         }
                         else
                         {
-                            Console.WriteLine("failed to add product to cart. make sure the product ID is correct");
+                            PrintLine("failed to add product to cart. make sure the product ID is correct", ConsoleColor.Red);
                         }
                     }
                 }
@@ -478,16 +513,20 @@ namespace OrderByRem
             {
                 Console.WriteLine(ex.Message);
             }
+            PrintLine("\npress any key to return to the main menu...", ConsoleColor.DarkGray);
+            Console.ReadKey();
         }
 
         static void ShowCart()
         {
             if (currentUserStatus == 0)
             {
-                Console.WriteLine("you must be logged in to view the cart");
+                PrintLine("you must be logged in to view the cart", ConsoleColor.Red);
+                PrintLine("\npress any key to return to the main menu...", ConsoleColor.DarkGray);
+                Console.ReadKey();
                 return;
             }
-            Console.WriteLine("\n-CART-");
+            PrintLine("\n-CART-", ConsoleColor.Yellow);
             string request = @"SELECT Product.Id, Product.ProductName, Product.Description, Product.Price, Category.CategoryName, CartItem.AddedAt
                                FROM Cart
                                INNER JOIN CartItem ON Cart.Id = CartItem.CartId
@@ -517,15 +556,15 @@ namespace OrderByRem
                                 total += price;
 
                                 Console.WriteLine($"ID: {reader["Id"]}");
-                                Console.WriteLine($"Product: {reader["ProductName"]}");
-                                Console.WriteLine($"Category: {reader["CategoryName"]}");
-                                Console.WriteLine($"Price: {price:F2} RUB");
-                                Console.WriteLine($"Added: {reader["AddedAt"]}");
+                                Console.WriteLine($"product: {reader["ProductName"]}");
+                                Console.WriteLine($"category: {reader["CategoryName"]}");
+                                Console.WriteLine($"price: {price:F2} RUB");
+                                Console.WriteLine($"added: {reader["AddedAt"]}");
                             }
 
                             if (!found)
                             {
-                                Console.WriteLine("your cart is empty");
+                                PrintLine("your cart is empty", ConsoleColor.DarkGray);
                             }
                             else
                             {
@@ -539,20 +578,24 @@ namespace OrderByRem
             {
                 Console.WriteLine(ex.Message);
             }
+            PrintLine("\npress any key to return to the main menu...", ConsoleColor.DarkGray);
+            Console.ReadKey();
         }
 
         static void RemoveFromCart()
         {
             if (currentUserStatus == 0)
             {
-                Console.WriteLine("you must be logged in to remove products from the cart");
+                PrintLine("you must be logged in to remove products from the cart", ConsoleColor.Red);
+                PrintLine("\npress any key to return to the main menu...", ConsoleColor.DarkGray);
+                Console.ReadKey();
                 return;
             }
-            Console.WriteLine("\n-REMOVE FROM CART-");
+            PrintLine("\n-REMOVE FROM CART-", ConsoleColor.Yellow);
             Console.Write("enter product ID to remove from cart: ");
             if (!int.TryParse(Console.ReadLine(), out int productId))
             {
-                Console.WriteLine("error! enter a valid value");
+                PrintLine("error! enter a valid value", ConsoleColor.Red);
                 return;
             }
             string request = @"DELETE CartItem
@@ -573,11 +616,11 @@ namespace OrderByRem
                         int rowsAffected = command.ExecuteNonQuery();
                         if (rowsAffected > 0)
                         {
-                            Console.WriteLine("product removed from cart successfully!");
+                            PrintLine("product removed from cart successfully!", ConsoleColor.Green);
                         }
                         else
                         {
-                            Console.WriteLine("failed to remove product from cart. make sure the product ID is correct and exists in your cart");
+                            PrintLine("failed to remove product from cart. make sure the product ID is correct and exists in your cart", ConsoleColor.Red);
                         }
                     }
                 }
@@ -586,11 +629,13 @@ namespace OrderByRem
             {
                 Console.WriteLine(ex.Message);
             }
+            PrintLine("\npress any key to return to the main menu...", ConsoleColor.DarkGray);
+            Console.ReadKey();
         }
 
         static int ChoosePickupPoint()
         {
-            Console.WriteLine("\n-PICKUP POINTS-");
+            PrintLine("\n-PICKUP POINTS-", ConsoleColor.Yellow);
 
             string query = @"SELECT Id, PointName, Address
                              FROM PickupPoint
@@ -619,7 +664,7 @@ namespace OrderByRem
 
                 if (!int.TryParse(Console.ReadLine(), out int pointId))
                 {
-                    Console.WriteLine("invalid ID!");
+                    PrintLine("invalid ID!", ConsoleColor.Red);
                     return 0;
                 }
 
@@ -630,23 +675,26 @@ namespace OrderByRem
                 Console.WriteLine(ex.Message);
                 return 0;
             }
+            PrintLine("\npress any key to return to the main menu...", ConsoleColor.DarkGray);
+            Console.ReadKey();
         }
 
         static void PurchaseProduct()
         {
             if (currentUserStatus == 0)
             {
-                Console.WriteLine("you must be logged in to purchase products");
+                PrintLine("you must be logged in to purchase products", ConsoleColor.Red);
+                PrintLine("\npress any key to return to the main menu...", ConsoleColor.DarkGray);
+                Console.ReadKey();
                 return;
             }
 
-            Console.WriteLine("\n-PURCHASE PRODUCT-");
-
+            PrintLine("\n-PURCHASE PRODUCT-", ConsoleColor.Yellow);
             Console.Write("enter product ID: ");
 
             if (!int.TryParse(Console.ReadLine(), out int productId))
             {
-                Console.WriteLine("invalid product ID!");
+                PrintLine("invalid product ID!", ConsoleColor.Red);
                 return;
             }
 
@@ -722,7 +770,7 @@ namespace OrderByRem
                         {
                             transaction.Rollback();
 
-                            Console.WriteLine("product is not in your cart or has already been sold!");
+                            PrintLine("product is not in your cart or has already been sold!", ConsoleColor.DarkGray);
                             return;
                         }
 
@@ -737,12 +785,14 @@ namespace OrderByRem
                         using (SqlCommand command = new SqlCommand(deleteQuery, connection, transaction))
                         {
                             command.Parameters.AddWithValue("@UserId", currentUserStatus);
+                            command.Parameters.AddWithValue("@ProductId", productId);
+
                             command.ExecuteNonQuery();
                         }
 
                         transaction.Commit();
 
-                        Console.WriteLine("\npurchase successful!");
+                        PrintLine("\npurchase successful!", ConsoleColor.Green);
                         Console.WriteLine($"order ID: {orderId}");
                     }
                     catch (SqlException ex)
@@ -750,6 +800,8 @@ namespace OrderByRem
                         transaction.Rollback();
                         Console.WriteLine(ex.Message);
                     }
+                    PrintLine("\npress any key to return to the main menu...", ConsoleColor.DarkGray);
+                    Console.ReadKey();
                 }
             }
         }
@@ -758,10 +810,10 @@ namespace OrderByRem
         {
             if (currentUserStatus == 0)
             {
-                Console.WriteLine("you must be logged in to purchase products");
+                PrintLine("you must be logged in to purchase products", ConsoleColor.Red);
                 return;
             }
-            Console.WriteLine("\n-PURCHASE ENTIRE CART-");
+            PrintLine("\n-PURCHASE ENTIRE CART-", ConsoleColor.Yellow);
             int pickupPointId = ChoosePickupPoint();
             if (pickupPointId <= 0)
                 return;
@@ -781,7 +833,7 @@ namespace OrderByRem
                             command.Parameters.AddWithValue("@PointId", pickupPointId);
                             if ((int)command.ExecuteScalar() == 0)
                             {
-                                Console.WriteLine("pickup point not found!");
+                                PrintLine("pickup point not found!", ConsoleColor.Red);
                                 transaction.Rollback();
                                 return;
                             }
@@ -835,7 +887,7 @@ namespace OrderByRem
                         {
                             transaction.Rollback();
 
-                            Console.WriteLine("cart is empty or some products have already been sold!");
+                            PrintLine("cart is empty or some products have already been sold!", ConsoleColor.DarkGray);
 
                             return;
                         }
@@ -869,7 +921,7 @@ namespace OrderByRem
 
                         transaction.Commit();
 
-                        Console.WriteLine("\npurchase successful!");
+                        PrintLine("\npurchase successful!", ConsoleColor.Green);
                         Console.WriteLine($"order ID: {orderId}");
                         Console.WriteLine($"products purchased: {addedItems}");
                         Console.WriteLine($"total: {total:F2} RUB");
@@ -879,8 +931,120 @@ namespace OrderByRem
                         transaction.Rollback();
                         Console.WriteLine(ex.Message);
                     }
+                    PrintLine("\npress any key to return to the main menu...", ConsoleColor.DarkGray);
+                    Console.ReadKey();
                 }
             }
+        }
+            static void ShowOrderHistory()
+            {
+                if (currentUserStatus == 0)
+                {
+                    PrintLine("you must be logged in to see order history", ConsoleColor.Red);
+                    PrintLine("\npress any key to return to the main menu...", ConsoleColor.DarkGray);
+                    Console.ReadKey();
+                    return;
+                }
+
+                PrintLine("\n-ORDER HISTORY-", ConsoleColor.Yellow);
+                Console.WriteLine("1. sort by date: ascending");
+                Console.WriteLine("2. sort by date: descending");
+                Console.Write("\nchoose sorting option: ");
+
+                string choice = Console.ReadLine();
+
+                string sorting;
+
+                if (choice == "1")
+                {
+                    sorting = "ASC";
+                }
+                else if (choice == "2")
+                {
+                    sorting = "DESC";
+                }
+                else
+                {
+                    PrintLine("invalid choice!", ConsoleColor.Red);
+                    return;
+                }
+
+                string request = $@"SELECT [Order].Id AS OrderId, [Order].CreatedAt, PickupPoint.PointName, PickupPoint.Address, Product.Id AS ProductId, Product.ProductName, OrderItem.UnitPriceAtPurchase,
+                                    SUM(OrderItem.UnitPriceAtPurchase)
+                                    OVER (PARTITION BY [Order].Id) AS OrderTotal
+                                    FROM [Order]
+                                    INNER JOIN PickupPoint
+                                        ON [Order].PickupPointId = PickupPoint.Id
+                                    INNER JOIN OrderItem
+                                        ON [Order].Id = OrderItem.OrderId
+                                    INNER JOIN Product
+                                        ON OrderItem.ProductId = Product.Id
+                                    WHERE [Order].UserId = @UserId
+                                    ORDER BY [Order].CreatedAt {sorting}, [Order].Id, Product.Id;";
+
+            try
+            {
+                using (SqlConnection connection = new SqlConnection(connectionString))
+                {
+                    connection.Open();
+
+                    using (SqlCommand command = new SqlCommand(request, connection))
+                    {
+                        command.Parameters.AddWithValue("@UserId", currentUserStatus);
+
+                        using (SqlDataReader reader = command.ExecuteReader())
+                        {
+                            bool found = false;
+                            int currentOrderId = -1;
+
+                            while (reader.Read())
+                            {
+                                found = true;
+
+                                int orderId = Convert.ToInt32(reader["OrderId"]);
+
+                                if (orderId != currentOrderId)
+                                {
+                                    currentOrderId = orderId;
+
+                                    Console.WriteLine($"ORDER #{orderId}");
+
+                                    DateTime date = Convert.ToDateTime(reader["CreatedAt"]);
+
+                                    Console.WriteLine($"date: {date:dd.MM.yyyy HH:mm}");
+
+                                    Console.WriteLine($"pickup point: {reader["PointName"]}");
+
+                                    Console.WriteLine($"address: {reader["Address"]}");
+
+                                    decimal orderTotal = Convert.ToDecimal(reader["OrderTotal"]);
+
+                                    Console.WriteLine($"TOTAL: {orderTotal:F2} RUB");
+                                }
+
+                                decimal price = Convert.ToDecimal(reader["UnitPriceAtPurchase"]);
+
+                                Console.WriteLine($"product ID: {reader["ProductId"]}");
+
+                                Console.WriteLine($"product: {reader["ProductName"]}");
+
+                                Console.WriteLine($"price: {price:F2} RUB");
+                            }
+
+                            if (!found)
+                            {
+                                PrintLine("you haven't made any purchases yet", ConsoleColor.DarkGray);
+                            }
+                        }
+                    }
+                }
+            }
+            catch (SqlException ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+            PrintLine("\npress any key to return to the main menu...", ConsoleColor.DarkGray);
+            Console.ReadKey();
         }
     }
 }
