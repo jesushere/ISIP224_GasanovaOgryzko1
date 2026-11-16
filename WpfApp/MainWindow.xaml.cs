@@ -8,6 +8,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using WpfApp.Pages;
 
 namespace WpfApp
 {
@@ -19,6 +20,15 @@ namespace WpfApp
         public MainWindow()
         {
             InitializeComponent();
+
+            MainFrame.Navigate(new Page1());
+            SetStep(1);
+        }
+
+        public void SetStep(int step)
+        {
+            StepProgressBar.Value = step;
+            StepTextBlock.Text = $"Step {step} of 5";
         }
     }
 }
