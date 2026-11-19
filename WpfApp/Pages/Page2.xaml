@@ -16,24 +16,64 @@
                        Margin="0,0,0,10"/>
             <TextBlock Text="Select the desired equipment for your car"
                        FontSize="14"/>
-            <TextBlock Text="Equipment"
+            <TextBlock Text="Car body color"
                        FontSize="28"
                        FontWeight="Bold"
                        Foreground="Red"
                        Margin="0,0,0,10"/>
-            <CheckBox x:Name="SunroofCheckBox"
-                      Content="Sunroof"
+            <ComboBox x:Name="ColorComboBox"
+                      Height="31"
                       FontSize="16"
-                      Margin="0,5"/>
-            <CheckBox x:Name="LeatherSeatsCheckBox"
-                      Content="Leather Seats"
+                      SelectedIndex="0"
+                      Margin="0,0,0,7">
+                <ComboBoxItem Content="White"/>
+                <ComboBoxItem Content="Gray"/>
+                <ComboBoxItem Content="Gold"/>
+                <ComboBoxItem Content="Black"/>
+                <ComboBoxItem Content="Red"/>
+            </ComboBox>
+            <TextBlock Text="Additional options"
+                       FontSize="28"
+                       FontWeight="Bold"
+                       Margin="0,0,0,6"/>
+            <CheckBox x:Name="NightVisionCheckBox"
+                      Content="Night Vision(+$3 500)"
                       FontSize="16"
-                      Margin="0,5"/>
-            <CheckBox x:Name="SportsPackageCheckBox"
-                      Content="Sports Package"
+                      Margin="0,0,0,10"/>
+            <CheckBox x:Name="StarlightHeadliinerCheckBox"
+                      Content="Starlight Headliner (+$15 000)"
                       FontSize="16"
-                      Margin="0,5"/>
-            
+                      Margin="0,0,0,10"/>
+            <CheckBox x:Name="ElectrochromicRoofCheckBox"
+                      Content="Electrochromic Roof(+$4 500)"
+                      FontSize="16"
+                      Margin="0,0,0,10"/>
+            <CheckBox x:Name="RearCameraCheckBox"
+                        Content="Rear Camera(+$800)"
+                        FontSize="16"
+                        Margin="0,0,0,10"/>
+            <TextBlock Text="*The cost of the selected options will be added to the car's price"
+                       Foreground="Gray"
+                       FontSize="11"
+                       FontStyle="Oblique"
+                       Margin="0,3,0,0"/>
+            <Grid Margin="0,10,0,0">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+                <Button Content="Back"
+                        Width="150"
+                        Height="45"
+                        HorizontalAlignment="Left"
+                        Click="BackButton_Click"/>
+                <Button Content="Next"
+                        Width="150"
+                        Height="45"
+                        HorizontalAlignment="Right"
+                        Grid.Column="1"
+                        Click="NextButton_Click"/>
+            </Grid>
         </StackPanel>
     </Grid>
 </Page>
