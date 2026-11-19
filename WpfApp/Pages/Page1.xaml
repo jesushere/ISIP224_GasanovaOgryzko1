@@ -7,58 +7,74 @@
       mc:Ignorable="d" 
       d:DesignHeight="450" d:DesignWidth="800"
       Title="CHOOSING A CAR">
-
-    <Grid Background="Black">
-        <StackPanel Margin="25">
-            <TextBlock Text="Choose a car"
-                       Foreground="White"
-                       FontSize="28"
-                       FontWeight="Bold"
-                       Margin="0,0,0,10"/>
+    <Grid Background="#090B10">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="0.9*"/>
+        </Grid.ColumnDefinitions>
+        <StackPanel Grid.Column="0" Margin="25">
+            <TextBlock Text="Choose your car"
+                   FontSize="25"
+                   FontWeight="Bold"
+                   Foreground="White"
+                   Margin="0,0,0,10"/>
+            <TextBlock Text="Select a car model and engine type"
+                   FontSize="14"
+                   Foreground="White"
+                   Margin="0,0,0,25"/>
             <TextBlock Text="Car model"
-                       Foreground="White"
-                       FontSize="18"
-                       FontWeight="Bold"
-                       Margin="0,0,0,10"/>
+                   Foreground="White"
+                   FontSize="15"
+                   FontWeight="Bold"
+                   Margin="0,0,0,10"/>
             <ComboBox x:Name="ModelComboBox"
-                      Height="30"
-                      FontSize="16"
-                      SelectedIndex="0"
-                      Margin="0,3,0,25">
-                <ComboBoxItem Content="BMW M4"/>
+                  Height="40"
+                  FontSize="15"
+                  SelectedIndex="0">
+                <ComboBoxItem Content="Lamborghini Aventador SVJ"/>
+                <ComboBoxItem Content="Ferrari SF90 Stradale"/>
+                <ComboBoxItem Content="McLaren 765LT"/>
                 <ComboBoxItem Content="Porsche 911 GT3 RS"/>
-                <ComboBoxItem Content="Toyota Supra IV"/>
+                <ComboBoxItem Content="Aston Martin DBS Superleggera"/>
             </ComboBox>
             <TextBlock Text="Engine type"
-                       Foreground="White"
-                       FontSize="18"
-                       FontWeight="Bold"
-                       Margin="0,0,0,10"/>
+                   Foreground="White"
+                   FontSize="15"
+                   FontWeight="Bold"
+                   Margin="0,25,0,10"/>
             <RadioButton x:Name="PetrolRadioButton"
-                         Content="Petrol"
-                         Foreground="White"
-                         GroupName="EngineType"
-                         IsChecked="True"
-                         FontSize="16"
-                         Margin="0,5"/>
+                     Content="Petrol"
+                     Foreground="White"
+                     GroupName="Engine"
+                     IsChecked="True"
+                     Margin="0,5"/>
             <RadioButton x:Name="DieselRadioButton"
-                         Content="Diesel"
-                         Foreground="White"
-                         GroupName="EngineType"
-                         FontSize="16"
-                         Margin="0,5"/>
+                     Content="Diesel"
+                     Foreground="White"
+                     GroupName="Engine"
+                     Margin="0,5"/>
             <RadioButton x:Name="ElectricRadioButton"
-                         Content="Electric"
-                         Foreground="White"
-                         GroupName="EngineType"
-                         FontSize="16"
-                         Margin ="0,5"/>
+                     Content="Electric"
+                     Foreground="White"
+                     GroupName="Engine"
+                     Margin="0,5"/>
             <Button Content="Next"
-                    Width="150"
-                    Height="45"
-                    Margin="0,10,0,0"
-                    Click="NextButton_Click"/>
+                Width="130"
+                Height="42"
+                HorizontalAlignment="Right"
+                Margin="0,35,0,0"
+                Click="NextButton_Click"/>
         </StackPanel>
-        
+        <Border Grid.Column="1"
+            Margin="20,75,25,75"
+            Background="White"
+            CornerRadius="10"
+            Padding="10">
+            <Border CornerRadius="12"
+                ClipToBounds="True">
+                <Image x:Name="CarImage"
+                    Stretch="UniformToFill"/>
+            </Border>
+        </Border>
     </Grid>
 </Page>

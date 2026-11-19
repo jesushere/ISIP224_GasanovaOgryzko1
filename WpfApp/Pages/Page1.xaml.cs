@@ -22,7 +22,44 @@ namespace WpfApp.Pages
         {
             InitializeComponent();
 
+            ModelComboBox.SelectionChanged += ModelComboBox_SelectionChanged;
+
+            UpdateCarImage(); //для фоток тема
+
             _configuration = configuration;
+        }
+        private void ModelComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            UpdateCarImage();
+        }
+
+        private void UpdateCarImage()
+        {
+            ComboBoxItem selectedItem = ModelComboBox.SelectedItem as ComboBoxItem;
+
+            if (selectedItem == null || CarImage == null)
+                return;
+
+            string model = selectedItem.Content.ToString();
+
+            switch (model)
+            {
+                case "Lamborghini Aventador SVJ":CarImage.Source = new System.Windows.Media.Imaging.BitmapImage(new Uri("/Images/aventador.jpg", UriKind.Relative));
+                    break;
+
+                case "Ferrari SF90 Stradale":CarImage.Source = new System.Windows.Media.Imaging.BitmapImage(
+                        new Uri("/Images/sf90.jpg", UriKind.Relative));
+                    break;
+
+                case "McLaren 765LT":CarImage.Source = new System.Windows.Media.Imaging.BitmapImage(new Uri("/Images/765lt.jpg", UriKind.Relative));
+                    break;
+
+                case "Porsche 911 GT3 RS":CarImage.Source = new System.Windows.Media.Imaging.BitmapImage(new Uri("/Images/gt3rs.jpg", UriKind.Relative));
+                    break;
+
+                case "Aston Martin DBS Superleggera":CarImage.Source = new System.Windows.Media.Imaging.BitmapImage(new Uri("/Images/dbs.jpg", UriKind.Relative));
+                    break;
+            }
         }
 
         private void NextButton_Click(object sender, RoutedEventArgs e)
