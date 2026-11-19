@@ -15,14 +15,65 @@ using System.Windows.Shapes;
 
 namespace WpfApp.Pages
 {
-    /// <summary>
-    /// Логика взаимодействия для Page1.xaml
-    /// </summary>
     public partial class Page1 : Page
     {
-        public Page1()
+        private CarConfiguration _configuration;
+        public Page1(CarConfiguration configuration)
         {
             InitializeComponent();
+
+            _configuration = configuration;
+        }
+
+        private void NextButton_Click(object sender, RoutedEventArgs e)
+        {
+            ComboBoxItem selectedModel = ModelComboBox.SelectedItem as ComboBoxItem;
+
+            string modelName = selectedModel?.Content.ToString();
+
+            decimal basePrice = 0;
+
+            switch(modelName)
+            {
+                case "BMW M4":
+                    basePrice = 5700000;
+                    break;
+                case "Porsche 911 GT3 RS":
+                    basePrice = 39970000;
+                    break;
+                case "Toyota Supra IV":
+                    basePrice = 12000000;
+                    break;
+            }
+
+            string engineType = "";
+            decimal enginePrice = 0;
+
+            if (PetrolRadioButton.IsChecked == true)
+            {
+                engineType = "Petrol";
+                enginePrice = 0;
+            }
+            else if (DieselRadioButton.IsChecked == true)
+            {
+                engineType = "Diesel";
+                enginePrice = 250000;
+            }
+            else if (ElectricRadioButton.IsChecked == true)
+            {
+                engineType = "Electrical";
+                enginePrice = 580000;
+            }
+
+            _configuration.ModelName = modelName;
+            _configuration.EngineType = engineType;
+            _configuration.EnginePrice = enginePrice;
+            _configuration.BasePrice = basePrice;
+
+            MainWindow mainWindow = (MainWindow)Application.Current.MainWindow;
+
+            mainWindow.MainFrame.Navigate(new Page2(_configuration));
+            mainWindow.SetStep(2);
         }
     }
 }

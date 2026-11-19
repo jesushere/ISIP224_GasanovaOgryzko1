@@ -17,11 +17,13 @@ namespace WpfApp
     /// </summary>
     public partial class MainWindow : Window
     {
+        public CarConfiguration Configuration { get; set; }
         public MainWindow()
         {
             InitializeComponent();
+            Configuration = new CarConfiguration();
 
-            MainFrame.Navigate(new Page1());
+            MainFrame.Navigate(new Page1(Configuration));
             SetStep(1);
         }
 

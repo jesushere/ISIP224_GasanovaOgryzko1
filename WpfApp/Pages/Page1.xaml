@@ -9,15 +9,57 @@
       Title="CHOOSING A CAR">
 
     <Grid Background="AliceBlue">
-        <StackPanel Margin="30">
+        <StackPanel Margin="25">
 
             <TextBlock Text="Step 1. Choosing a Car"
-                       FontSize="26"
+                       FontSize="21"
                        FontWeight="Bold"
                        Margin="0,0,0,10"/>
             <TextBlock Text="There's a selection of models and engines here"
-                       FontSize="16"/>
-            
+                       FontSize="14"/>
+            <TextBlock Text="Choose a car"
+                       FontSize="28"
+                       FontWeight="Bold"
+                       Foreground="Red"
+                       Margin="0,0,0,10"/>
+            <TextBlock Text="Car model"
+                       FontSize="18"
+                       FontWeight="Bold"
+                       Margin="0,0,0,10"/>
+            <ComboBox x:Name="ModelComboBox"
+                      Height="40"
+                      FontSize="16"
+                      SelectedIndex="0"
+                      Margin="0,0,0,25">
+                <ComboBoxItem Content="BMW M4"/>
+                <ComboBoxItem Content="Porsche 911 GT3 RS"/>
+                <ComboBoxItem Content="Toyota Supra IV"/>
+            </ComboBox>
+            <TextBlock Text="Engine type"
+                       FontSize="18"
+                       FontWeight="Bold"
+                       Margin="0,0,0,10"/>
+            <RadioButton x:Name="PetrolRadioButton"
+                         Content="Petrol"
+                         GroupName="EngineType"
+                         IsChecked="True"
+                         FontSize="16"
+                         Margin="0,5"/>
+            <RadioButton x:Name="DieselRadioButton"
+                         Content="Diesel"
+                         GroupName="EngineType"
+                         FontSize="16"
+                         Margin="0,5"/>
+            <RadioButton x:Name="ElectricRadioButton"
+                         Content="Electric"
+                         GroupName="EngineType"
+                         FontSize="16"
+                         Margin ="0,5"/>
+            <Button Content="Next"
+                    Width="150"
+                    Height="45"
+                    Margin="0,10,0,0"
+                    Click="NextButton_Click"/>
         </StackPanel>
         
     </Grid>
