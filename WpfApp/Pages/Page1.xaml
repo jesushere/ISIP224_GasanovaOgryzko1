@@ -12,59 +12,89 @@
             <ColumnDefinition Width="*"/>
             <ColumnDefinition Width="0.9*"/>
         </Grid.ColumnDefinitions>
-        <StackPanel Grid.Column="0" Margin="25">
-            <TextBlock Text="Choose your car"
-                   FontSize="25"
+        <Grid Grid.Column="0" Margin="35,30,20,30">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+            <TextBlock Grid.Row="0"
+                   Text="01 / CAR SELECTION"
+                   FontSize="12"
                    FontWeight="Bold"
-                   Foreground="White"
-                   Margin="0,0,0,10"/>
-            <TextBlock Text="Select a car model and engine type"
-                   FontSize="14"
-                   Foreground="White"
-                   Margin="0,0,0,25"/>
-            <TextBlock Text="Car model"
-                   Foreground="White"
-                   FontSize="15"
-                   FontWeight="Bold"
-                   Margin="0,0,0,10"/>
-            <ComboBox x:Name="ModelComboBox"
-                  Height="40"
-                  FontSize="15"
-                  SelectedIndex="0">
-                <ComboBoxItem Content="Lamborghini Aventador SVJ"/>
-                <ComboBoxItem Content="Ferrari SF90 Stradale"/>
-                <ComboBoxItem Content="McLaren 765LT"/>
-                <ComboBoxItem Content="Porsche 911 GT3 RS"/>
-                <ComboBoxItem Content="Aston Martin DBS Superleggera"/>
-            </ComboBox>
-            <TextBlock Text="Engine type"
-                   Foreground="White"
-                   FontSize="15"
-                   FontWeight="Bold"
-                   Margin="0,25,0,10"/>
-            <RadioButton x:Name="PetrolRadioButton"
-                     Content="Petrol"
-                     Foreground="White"
-                     GroupName="Engine"
-                     IsChecked="True"
-                     Margin="0,5"/>
-            <RadioButton x:Name="DieselRadioButton"
-                     Content="Diesel"
-                     Foreground="White"
-                     GroupName="Engine"
-                     Margin="0,5"/>
-            <RadioButton x:Name="ElectricRadioButton"
-                     Content="Electric"
-                     Foreground="White"
-                     GroupName="Engine"
-                     Margin="0,5"/>
-            <Button Content="Next"
-                Width="130"
-                Height="42"
-                HorizontalAlignment="Right"
-                Margin="0,35,0,0"
-                Click="NextButton_Click"/>
-        </StackPanel>
+                   Foreground="#540104"
+                   Margin="0,0,0,18"/>
+            <StackPanel Grid.Row="1">
+                <TextBlock Text="Choose your car"
+                       FontSize="32"
+                       FontWeight="Bold"
+                       Foreground="#F2F2F2"/>
+                <TextBlock Text="Your next car is already here. All that’s left is to choose."
+                       FontSize="14"
+                       Foreground="#858B96"
+                       Margin="0,8,0,30"/>
+            </StackPanel>
+            <StackPanel Grid.Row="2">
+                <TextBlock Text="SELECT MODEL"
+                       FontSize="12"
+                       FontWeight="Bold"
+                       Foreground="#F2F2F2"
+                       Margin="0,0,0,12"/>
+                <ComboBox x:Name="ModelComboBox"
+                      Height="29"
+                      FontSize="14"
+                      SelectedIndex="0"
+                      Foreground="#151922"
+                      Padding="10,5">
+                    <ComboBoxItem Content="Lamborghini Aventador SVJ"/>
+                    <ComboBoxItem Content="Ferrari SF90 Stradale"/>
+                    <ComboBoxItem Content="McLaren 765LT"/>
+                    <ComboBoxItem Content="Porsche 911 GT3 RS"/>
+                    <ComboBoxItem Content="Aston Martin DBS Superleggera"/>
+                </ComboBox>
+            </StackPanel>
+            <StackPanel Grid.Row="3" Margin="0,30,0,0">
+                <TextBlock Text="ENGINE TYPE"
+                       FontSize="12"
+                       FontWeight="Bold"
+                       Foreground="#F2F2F2"
+                       Margin="0,0,0,15"/>
+                <RadioButton x:Name="PetrolRadioButton"
+                         Content="Petrol"
+                         GroupName="Engine"
+                         IsChecked="True"
+                         Foreground="#E8E8E8"
+                         FontSize="15"
+                         Margin="0,7"/>
+                <RadioButton x:Name="DieselRadioButton"
+                         Content="Diesel"
+                         GroupName="Engine"
+                         Foreground="#E8E8E8"
+                         FontSize="15"
+                         Margin="0,7"/>
+                <RadioButton x:Name="ElectricRadioButton"
+                         Content="Electric"
+                         GroupName="Engine"
+                         Foreground="#E8E8E8"
+                         FontSize="15"
+                         Margin="0,7"/>
+            </StackPanel>
+            <Button Grid.Row="5"
+                    Content="CONTINUE"
+                    Width="170"
+                    Height="35"
+                    Click="NextButton_Click"
+                    FontSize="14"
+                    FontWeight="Bold"
+                    Foreground="#F2F2F2"
+                    Background="#540104"
+                    BorderBrush="#151922"     
+                    
+                    BorderThickness="1"/>
+        </Grid>
         <Border Grid.Column="1"
             Margin="20,75,25,75"
             Background="White"
