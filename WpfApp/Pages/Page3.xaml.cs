@@ -37,13 +37,9 @@ namespace WpfApp.Pages
                 OptionsTextBlock.Text = "Options: None";
             }
             BasePriceTextBlock.Text ="Base Price: " + _carConfiguration.BasePrice.ToString("N0") + " $";
-
             EnginePriceTextBlock.Text ="Engine: " + _carConfiguration.EnginePrice.ToString("N0") + " $";
-
             ColorPriceTextBlock.Text ="Color: " + _carConfiguration.ColorPrice.ToString("N0") + " $";
-
             OptionsPriceTextBlock.Text ="Options: " + _carConfiguration.OptionsPrice.ToString("N0") + " $";
-
             TotalPriceTextBlock.Text ="Total Price: " + _carConfiguration.TotalPrice.ToString("N0") + " $";
         }
         private void BackButton_Click(object sender, RoutedEventArgs e)

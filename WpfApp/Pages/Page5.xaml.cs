@@ -32,10 +32,10 @@ namespace WpfApp.Pages
                                     $"Engine: {_carConfiguration.EngineType}\n" +
                                     $"Color: {_carConfiguration.Color}\n" +
                                     $"Options: {string.Join(", ", _carConfiguration.SelectedOptions)}\n" +
-                                    $"Total Price: {_carConfiguration.TotalPrice:C}\n" +
-                                    $"Down Payment: {_carConfiguration.DownPaymentAmount:C}\n" +
+                                    $"Total Price: {_carConfiguration.TotalPrice:N0} $\n" +
+                                    $"Down Payment: {_carConfiguration.DownPaymentAmount:N0} $\n" +
                                     $"Loan Months: {_carConfiguration.LoanMonths}\n" +
-                                    $"Monthly Payment: {_carConfiguration.MonthlyPayment:C}";
+                                    $"Monthly Payment: {_carConfiguration.MonthlyPayment:N0} $";
             ValidateInput();
         }
         private void ValidateInput()

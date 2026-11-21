@@ -72,14 +72,20 @@ namespace WpfApp.Pages
 
             switch(modelName)
             {
-                case "BMW M4":
-                    basePrice = 5700000;
+                case "Lamborghini Aventador SVJ":
+                    basePrice = 1600000;
+                    break;
+                case "Ferrari SF90 Stradale":
+                    basePrice = 485000;
+                    break;
+                case "McLaren 765LT":
+                    basePrice = 690000;
                     break;
                 case "Porsche 911 GT3 RS":
-                    basePrice = 39970000;
+                    basePrice = 415000;
                     break;
-                case "Toyota Supra IV":
-                    basePrice = 12000000;
+                case "Aston Martin DBS Superleggera":
+                    basePrice = 233000;
                     break;
             }
 

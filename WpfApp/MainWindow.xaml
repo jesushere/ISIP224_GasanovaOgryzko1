@@ -13,7 +13,7 @@
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
         <Border Grid.Row=" 0"
-                Background="#540104"
+                Background="#C5A46D"
                 Padding="25">
             <TextBlock Text="CAR CONFIGURATION"
                        Foreground="#F2F2F2"
@@ -31,7 +31,7 @@
                        Minimum =" 1"
                        Maximum =" 5"
                        Value =" 1"
-                       Foreground="#540104"
+                       Foreground="#C5A46D"
                        Background="#343B48"
                        Height="12"/>
             </StackPanel>

@@ -7,30 +7,40 @@
       mc:Ignorable="d" 
       d:DesignHeight="450" d:DesignWidth="800"
       Title="Calculation of loan parameters">
-
-    <Grid Background="AliceBlue">
+    <Grid Background="#090B10">
         <ScrollViewer VerticalScrollBarVisibility="Auto"
-                      HorizontalScrollBarVisibility="Disabled">
-            <StackPanel Margin="25">
-                <TextBlock Text="Step 4. Calculation of loan parameters" 
-                       FontSize="21" 
-                       FontWeight="Bold" 
-                       Margin="0,0,0,10"/>
-                <TextBlock Text="Set the down payment and loan period"
-                           FontSize="16"
-                           Margin="0,0,0,25"/>
-                <Border Background="Beige"
+          HorizontalScrollBarVisibility="Disabled">
+            <StackPanel Margin="35,20">
+                <TextBlock Text="04 / LOAN PARAMETERS"
+                           FontSize="12"
+                           FontWeight="Bold"
+                           Foreground="#343B48"
+                           Margin="0,0,0,15"/>
+                <TextBlock Text="Loan calculation"
+                           FontSize="32"
+                           FontWeight="Bold"
+                           Foreground="#F2F2F2"/>
+                <TextBlock Text="Choose your down payment and preferred loan period."
+                           FontSize="14"
+                           Foreground="#858B96"
+                           Margin="0,8,0,25"/>
+                <Border Background="#151922"
+                        BorderBrush="#343B48"
+                        BorderThickness="1"
                         CornerRadius="10"
                         Padding="20">
                     <StackPanel>
-                        <TextBlock Text="Down payment"
-                                   FontSize="20"
+                        <TextBlock Text="DOWN PAYMENT"
+                                   FontSize="12"
                                    FontWeight="Bold"
+                                   Foreground="#C5A46D"
                                    Margin="0,0,0,15"/>
                         <TextBlock x:Name="DownPaymentPercentTextBlock"
                                    Text="Down payment: 20%"
                                    FontSize="17"
-                                   Margin="0,0,0,10"/>
+                                   FontWeight="Bold"
+                                   Foreground="#F2F2F2"
+                                   Margin="0,0,0,15"/>
                         <Slider x:Name="DownPaymentSlider"
                                 Minimum="0"
                                 Maximum="100"
@@ -38,14 +48,15 @@
                                 TickFrequency="10"
                                 IsSnapToTickEnabled="True"
                                 ValueChanged="DownPaymentSlider_ValueChanged"/>
-                        <TextBlock Text="Loan period"
-                                   FontSize="20"
+                        <TextBlock Text="LOAN PERIOD"
+                                   FontSize="12"
                                    FontWeight="Bold"
-                                   Margin="0,25,0,10"/>
-
+                                   Foreground="#C5A46D"
+                                   Margin="0,30,0,12"/>
                         <ComboBox x:Name="LoanMonthsComboBox"
-                                  Height="40"
-                                  FontSize="16"
+                                  Foreground="#151922"
+                                  Height="27"
+                                  FontSize="14"
                                   SelectedIndex="2"
                                   SelectionChanged="LoanMonthsComboBox_SelectionChanged">
                             <ComboBoxItem Content="12 months"/>
@@ -57,28 +68,32 @@
                             <ComboBoxItem Content="84 months"/>
                             <ComboBoxItem Content="96 months"/>
                         </ComboBox>
-                        <Separator Margin="0,25,0,15"/>
-
-                        <TextBlock Text="Loan calculation"
-                                   FontSize="20"
+                        <Separator Background="#343B48"
+                                   Margin="0,25,0,20"/>
+                        <TextBlock Text="PAYMENT SUMMARY"
+                                   FontSize="12"
                                    FontWeight="Bold"
-                                   Foreground="#202A44"
+                                   Foreground="#C5A46D"
                                    Margin="0,0,0,15"/>
                         <TextBlock x:Name="TotalPriceTextBlock"
-                                   FontSize="16"
+                                   FontSize="15"
+                                   Foreground="#E8E8E8"
                                    Margin="0,5"/>
                         <TextBlock x:Name="DownPaymentTextBlock"
-                                   FontSize="16"
+                                   FontSize="15"
+                                   Foreground="#E8E8E8"
                                    Margin="0,5"/>
                         <TextBlock x:Name="CreditAmountTextBlock"
-                                   FontSize="16"
+                                   FontSize="15"
+                                   Foreground="#E8E8E8"
                                    Margin="0,5"/>
-                        <Separator Margin="0,15"/>
+                        <Separator Background="#343B48"
+                                   Margin="0,20"/>
                         <TextBlock x:Name="MonthlyPaymentTextBlock"
-                                   FontSize="24"
+                                   FontSize="25"
                                    FontWeight="Bold"
-                                   Foreground="#202A44"
-                                   Margin="0,10,0,0"/>
+                                   Foreground="#C5A46D"
+                                   Margin="0,5,0,0"/>
                     </StackPanel>
                 </Border>
                 <Grid Margin="0,25,0,0">
@@ -87,17 +102,28 @@
                         <ColumnDefinition Width="Auto"/>
                     </Grid.ColumnDefinitions>
                     <Button Grid.Column="0"
-                            Content="Back"
+                            Content="BACK"
                             Width="130"
-                            Height="40"
+                            Height="42"
                             HorizontalAlignment="Left"
+                            FontSize="13"
+                            FontWeight="Bold"
+                            Foreground="#C5A46D"
+                            Background="#151922"
+                            BorderBrush="#C5A46D"
+                            BorderThickness="1"
                             Click="BackButton_Click"/>
-
                     <Button Grid.Column="1"
-                            Content="Next"
-                            Width="130"
-                            Height="40"
+                            Content="CONTINUE"
+                            Width="160"
+                            Height="42"
                             HorizontalAlignment="Right"
+                            FontSize="13"
+                            FontWeight="Bold"
+                            Foreground="#090B10"
+                            Background="#C5A46D"
+                            BorderBrush="#C5A46D"
+                            BorderThickness="1"
                             Click="NextButton_Click"/>
                 </Grid>
             </StackPanel>

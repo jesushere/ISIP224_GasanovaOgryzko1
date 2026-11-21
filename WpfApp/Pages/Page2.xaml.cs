@@ -53,16 +53,16 @@ namespace WpfApp.Pages
                     colorPrice = 0;
                     break;
                 case "Gray":
-                    colorPrice = 1000;
+                    colorPrice = 4500;
                     break;
                 case "Gold":
-                    colorPrice = 1500;
+                    colorPrice = 22000;
                     break;
                 case "Black":
-                    colorPrice = 2000;
+                    colorPrice = 0;
                     break;
                 case "Red":
-                    colorPrice = 2500;
+                    colorPrice = 0;
                     break;
             }
 

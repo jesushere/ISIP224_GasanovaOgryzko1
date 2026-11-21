@@ -42,11 +42,11 @@ namespace WpfApp.Pages
                 string monthsText = selectedItem.Content.ToString();
                 _carConfiguration.LoanMonths = int.Parse(monthsText.Split(' ')[0]);
             }
-            DownPaymentPercentTextBlock.Text = $"Down payment: {_carConfiguration.DownPayment}%";
-            TotalPriceTextBlock.Text = $"Total price: {_carConfiguration.TotalPrice}";
-            DownPaymentTextBlock.Text = $"Down payment amount: {_carConfiguration.DownPaymentAmount}";
-            CreditAmountTextBlock.Text = $"Credit amount: {_carConfiguration.CreditAmount}";
-            MonthlyPaymentTextBlock.Text = $"Monthly payment: {_carConfiguration.MonthlyPayment}";
+            DownPaymentPercentTextBlock.Text =$"Down payment: {_carConfiguration.DownPayment}%";
+            TotalPriceTextBlock.Text = $"Total price: {_carConfiguration.TotalPrice:N0} $";
+            DownPaymentTextBlock.Text = $"Down payment amount: {_carConfiguration.DownPaymentAmount:N0} $";
+            CreditAmountTextBlock.Text = $"Credit amount: {_carConfiguration.CreditAmount:N0} $";
+            MonthlyPaymentTextBlock.Text = $"Monthly payment: {_carConfiguration.MonthlyPayment:N0} $";
         }
         private void DownPaymentSlider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
         {

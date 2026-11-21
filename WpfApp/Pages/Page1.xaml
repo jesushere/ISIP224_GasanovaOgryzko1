@@ -25,7 +25,7 @@
                    Text="01 / CAR SELECTION"
                    FontSize="12"
                    FontWeight="Bold"
-                   Foreground="#540104"
+                   Foreground="#343B48"
                    Margin="0,0,0,18"/>
             <StackPanel Grid.Row="1">
                 <TextBlock Text="Choose your car"
@@ -84,15 +84,14 @@
             </StackPanel>
             <Button Grid.Row="5"
                     Content="CONTINUE"
-                    Width="170"
-                    Height="35"
+                    Width="160"
+                    Height="42"
                     Click="NextButton_Click"
-                    FontSize="14"
+                    FontSize="13"
                     FontWeight="Bold"
-                    Foreground="#F2F2F2"
-                    Background="#540104"
-                    BorderBrush="#151922"     
-                    
+                    Foreground="#090B10"
+                    Background="#C5A46D"
+                    BorderBrush="#C5A46D"
                     BorderThickness="1"/>
         </Grid>
         <Border Grid.Column="1"

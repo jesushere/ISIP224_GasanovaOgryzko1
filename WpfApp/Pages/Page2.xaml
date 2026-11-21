@@ -7,73 +7,115 @@
       mc:Ignorable="d" 
       d:DesignHeight="450" d:DesignWidth="800"
       Title="Equipment">
-
-    <Grid Background="AliceBlue">
-        <StackPanel Margin="25">
-            <TextBlock Text="Step 2. Choosing Equipment"
-                       FontSize="21"
+    <Grid Background="#090B10">
+        <ScrollViewer VerticalScrollBarVisibility="Auto"
+                  HorizontalScrollBarVisibility="Disabled">
+        <StackPanel Margin="35,15">
+        <TextBlock Text="02 / CUSTOMIZATION"
+                       FontSize="12"
                        FontWeight="Bold"
-                       Margin="0,0,0,10"/>
-            <TextBlock Text="Select the desired equipment for your car"
-                       FontSize="14"/>
-            <TextBlock Text="Car body color"
-                       FontSize="28"
+                       Foreground="#343B48"
+                       Margin="0,0,0,18"/>
+            <TextBlock Text="Customize your car"
+                       FontSize="32"
                        FontWeight="Bold"
-                       Foreground="Red"
-                       Margin="0,0,0,10"/>
-            <ComboBox x:Name="ColorComboBox"
-                      Height="31"
-                      FontSize="16"
-                      SelectedIndex="0"
-                      Margin="0,0,0,7">
-                <ComboBoxItem Content="White"/>
-                <ComboBoxItem Content="Gray"/>
-                <ComboBoxItem Content="Gold"/>
-                <ComboBoxItem Content="Black"/>
-                <ComboBoxItem Content="Red"/>
-            </ComboBox>
-            <TextBlock Text="Additional options"
-                       FontSize="28"
-                       FontWeight="Bold"
-                       Margin="0,0,0,6"/>
-            <CheckBox x:Name="NightVisionCheckBox"
-                      Content="Night Vision(+$3 500)"
-                      FontSize="16"
-                      Margin="0,0,0,10"/>
-            <CheckBox x:Name="StarlightHeadliinerCheckBox"
-                      Content="Starlight Headliner (+$15 000)"
-                      FontSize="16"
-                      Margin="0,0,0,10"/>
-            <CheckBox x:Name="ElectrochromicRoofCheckBox"
-                      Content="Electrochromic Roof(+$4 500)"
-                      FontSize="16"
-                      Margin="0,0,0,10"/>
-            <CheckBox x:Name="RearCameraCheckBox"
-                        Content="Rear Camera(+$800)"
-                        FontSize="16"
-                        Margin="0,0,0,10"/>
-            <TextBlock Text="*The cost of the selected options will be added to the car's price"
-                       Foreground="Gray"
-                       FontSize="11"
-                       FontStyle="Oblique"
-                       Margin="0,3,0,0"/>
-            <Grid Margin="0,10,0,0">
+                       Foreground="#F2F2F2"/>
+            <Border Background="#151922"
+                    BorderBrush="#343B48"
+                    BorderThickness="1"
+                    CornerRadius="10"
+                    Padding="20">
+                <StackPanel>
+                    <TextBlock Text="BODY COLOR"
+                               FontSize="12"
+                               FontWeight="Bold"
+                               Foreground="#F2F2F2"
+                               Margin="0,0,0,15"/>
+                    <ComboBox x:Name="ColorComboBox"
+                              Height="29"
+                              FontSize="14"
+                              SelectedIndex="0"
+                              Foreground="#151922"
+                              Padding="10,5">
+                        <ComboBoxItem Content="White"/>
+                        <ComboBoxItem Content="Gray"/>
+                        <ComboBoxItem Content="Gold"/>
+                        <ComboBoxItem Content="Black"/>
+                        <ComboBoxItem Content="Red"/>
+                    </ComboBox>
+                </StackPanel>
+            </Border>
+            <Border Background="#151922"
+                    BorderBrush="#343B48"
+                    BorderThickness="1"
+                    CornerRadius="10"
+                    Padding="15"
+                    Margin="0,12,0,0">
+                <StackPanel>
+                    <TextBlock Text="ADDITIONAL OPTIONS"
+                               FontSize="12"
+                               FontWeight="Bold"
+                               Foreground="#F2F2F2"
+                               Margin="0,0,0,18"/>
+                    <CheckBox x:Name="NightVisionCheckBox"
+                              Content="Night Vision  (+$3 500)"
+                              FontSize="12"
+                              Foreground="#E8E8E8"
+                              Margin="0,0,0,15"/>
+                    <CheckBox x:Name="StarlightHeadliinerCheckBox"
+                              Content="Starlight Headliner  (+$15 000)"
+                              FontSize="12"
+                              Foreground="#E8E8E8"
+                              Margin="0,0,0,15"/>
+                    <CheckBox x:Name="ElectrochromicRoofCheckBox"
+                              Content="Electrochromic Roof  (+$4 500)"
+                              FontSize="12"
+                              Foreground="#E8E8E8"
+                              Margin="0,0,0,15"/>
+                    <CheckBox x:Name="RearCameraCheckBox"
+                              Content="Rear Camera  (+$800)"
+                              FontSize="12"
+                              Foreground="#E8E8E8"
+                              Margin="0,0,0,5"/>
+                <TextBlock Text="The cost of selected options will be added to the car's price."
+                               FontSize="12"
+                               Foreground="#858B96"
+                               FontStyle="Italic"
+                               Margin="0,9,0,0"/>
+            </StackPanel>
+            </Border>
+            <Grid Margin="0,15,0,0">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*"/>
                     <ColumnDefinition Width="Auto"/>
                 </Grid.ColumnDefinitions>
-                <Button Content="Back"
-                        Width="150"
-                        Height="45"
+                <Button Grid.Column="0"
+                        Content="BACK"
+                        Width="130"
+                        Height="42"
                         HorizontalAlignment="Left"
+                        FontSize="13"
+                        FontWeight="Bold"
+                        Foreground="#C5A46D"
+                        Background="#151922"
+                        BorderBrush="#C5A46D"
+                        BorderThickness="1"
                         Click="BackButton_Click"/>
-                <Button Content="Next"
-                        Width="150"
-                        Height="45"
+
+                <Button Grid.Column="1"
+                        Content="CONTINUE"
+                        Width="160"
+                        Height="42"
                         HorizontalAlignment="Right"
-                        Grid.Column="1"
+                        FontSize="13"
+                        FontWeight="Bold"
+                        Foreground="#090B10"
+                        Background="#C5A46D"
+                        BorderBrush="#C5A46D"
+                        BorderThickness="1"
                         Click="NextButton_Click"/>
             </Grid>
         </StackPanel>
+        </ScrollViewer>
     </Grid>
 </Page>
