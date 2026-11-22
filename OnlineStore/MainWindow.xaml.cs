@@ -18,9 +18,15 @@ namespace OnlineStore
         {
             InitializeComponent();
 
-            List<Product> products = Core.Context.Products.ToList();
-
-            MessageBox.Show("quantity: " + products.Count);
+            MainFrame.Navigate(new Pages.ProductsPage());
+        }
+        private void Products_Click(object sender, RoutedEventArgs e)
+        {
+            MainFrame.Navigate(new Pages.ProductsPage());
+        }
+        private void Cart_Click(object sender, RoutedEventArgs e)
+        {
+            MainFrame.Navigate(new Pages.CartPage());
         }
     }
 }

@@ -5,8 +5,36 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:OnlineStore"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
+        Title="MainWindow" Height="700" Width="1100"
+        WindowStartupLocation="CenterScreen">
+    
     <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="60"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <StackPanel Orientation="Horizontal"
+                    VerticalAlignment="Center"
+                    Margin="15">
+            
+            <TextBlock Text="ONLINE STORE"
+                       FontSize="22"
+                       FontWeight="Bold"
+                       VerticalAlignment="Center"/>
 
+            <Button Content="Products"
+                    Width="100"
+                    Margin="30,0,10,0"
+                    Click="Products_Click"/>
+            <Button Content="Cart"
+                    Width="100"
+                    Click="Cart_Click"/>
+            
+        </StackPanel>
+
+        <Frame x:Name="MainFrame"
+               Grid.Row="1"
+               NavigationUIVisibility="Hidden"/>
     </Grid>
+    
 </Window>
