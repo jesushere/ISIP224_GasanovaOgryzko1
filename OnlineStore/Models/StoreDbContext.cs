@@ -42,6 +42,27 @@ public partial class StoreDbContext : DbContext
 
             entity.HasOne(d => d.Category).WithMany(p => p.Products).HasForeignKey(d => d.CategoryId);
         });
+        modelBuilder.Entity<Order>(entity =>
+        {
+            entity.ToTable("Order");
+
+            entity.Property(e => e.FullName).IsRequired();
+            entity.Property(e => e.Email).IsRequired();
+            entity.Property(e => e.Address).IsRequired();
+            entity.Property(e => e.TotalPrice)
+                .HasColumnType("decimal(18, 2)");
+        });
+
+        modelBuilder.Entity<OrderItem>(entity =>
+        {
+            entity.ToTable("OrderItem");
+
+            entity.Property(e => e.Price).HasColumnType("decimal(18, 2)");
+            entity.HasOne(e => e.Order).WithMany(e => e.OrderItems)
+                .HasForeignKey(e => e.OrderId);
+            entity.HasOne(e => e.Product).WithMany()
+                .HasForeignKey(e => e.ProductId);
+        });
 
         OnModelCreatingPartial(modelBuilder);
     }
