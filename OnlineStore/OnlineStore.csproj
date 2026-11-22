@@ -9,6 +9,19 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="Images\backpack.jpg" />
+    <None Remove="Images\flashdrive.jpg" />
+    <None Remove="Images\headphones.jpg" />
+    <None Remove="Images\keyboard.jpg" />
+    <None Remove="Images\lamp.jpg" />
+    <None Remove="Images\laptop.jpg" />
+    <None Remove="Images\monitor.jpg" />
+    <None Remove="Images\mouse.jpg" />
+    <None Remove="Images\mousepad.jpg" />
+    <None Remove="Images\smartphone.jpg" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="8.0.20" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="8.0.20">
       <PrivateAssets>all</PrivateAssets>
@@ -19,6 +32,19 @@
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="Images\backpack.jpg" />
+    <Resource Include="Images\flashdrive.jpg" />
+    <Resource Include="Images\headphones.jpg" />
+    <Resource Include="Images\keyboard.jpg" />
+    <Resource Include="Images\lamp.jpg" />
+    <Resource Include="Images\laptop.jpg" />
+    <Resource Include="Images\monitor.jpg" />
+    <Resource Include="Images\mouse.jpg" />
+    <Resource Include="Images\mousepad.jpg" />
+    <Resource Include="Images\smartphone.jpg" />
   </ItemGroup>
 
 </Project>

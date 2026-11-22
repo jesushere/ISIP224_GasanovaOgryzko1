@@ -52,7 +52,57 @@ namespace OnlineStore.Pages
 
             Core.Context.SaveChanges();
 
-            ProductsItemsControl.ItemsSource = Core.Context.Products.ToList();
+
+            var catalogProducts = Core.Context.Products.ToList();
+
+            foreach (var product in catalogProducts)
+            {
+                switch (product.Name)
+                {
+                    case "Notebook ASUS VivoBook":
+                        product.ImagePath = "/Images/laptop.jpg";
+                        break;
+
+                    case "Headphones JBL Tune 720BT":
+                        product.ImagePath = "/Images/headphones.jpg";
+                        break;
+
+                    case "Monitor Samsung 27 inches":
+                        product.ImagePath = "/Images/monitor.jpg";
+                        break;
+
+                    case "Smartphone Samsung Galaxy":
+                        product.ImagePath = "/Images/smartphone.jpg";
+                        break;
+
+                    case "Mouse Logitech G102":
+                        product.ImagePath = "/Images/mouse.jpg";
+                        break;
+
+                    case "Keyboard Redragon Kumara":
+                        product.ImagePath = "/Images/keyboard.jpg";
+                        break;
+
+                    case "Mousepad SteelSeries":
+                        product.ImagePath = "/Images/mousepad.jpg";
+                        break;
+
+                    case "USB Kingston 64 GB":
+                        product.ImagePath = "/Images/flashdrive.jpg";
+                        break;
+
+                    case "Laptop Backpack":
+                        product.ImagePath = "/Images/backpack.jpg";
+                        break;
+
+                    case "Xiaomi Desk Lamp":
+                        product.ImagePath = "/Images/lamp.jpg";
+                        break;
+                }
+            }
+
+            ProductsItemsControl.ItemsSource = catalogProducts;
+
         }
         private void AddToCart_Click(object sender, RoutedEventArgs e)
         {
