@@ -11,14 +11,13 @@ using System.Windows.Shapes;
 
 namespace OnlineCinema
 {
-    /// <summary>
-    /// Interaction logic for MainWindow.xaml
-    /// </summary>
     public partial class MainWindow : Window
     {
         public MainWindow()
         {
             InitializeComponent();
+
+            DatabaseInitializer.Initialize();
         }
     }
 }
