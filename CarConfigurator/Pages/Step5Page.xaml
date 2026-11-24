@@ -8,7 +8,96 @@
       d:DesignHeight="450" d:DesignWidth="800"
       Title="Step5Page">
 
-    <Grid>
-        
-    </Grid>
+    <ScrollViewer VerticalScrollBarVisibility="Auto">
+        <Grid Background="AliceBlue" Margin="30">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+            <TextBlock Text="5. Complete your application"
+                       FontSize="24"
+                       FontWeight="Bold"
+                       Margin="0,0,0,25"/>
+            <StackPanel Grid.Row="1"
+                        Width="550"
+                        HorizontalAlignment="Center">
+                <TextBlock Text="Contact information"
+                           FontSize="19"
+                           FontWeight="Bold"
+                           Margin="0,0,0,15"/>
+                <TextBlock Text="Full name"/>
+                <TextBox x:Name="NameTextBox"
+                         Height="35"
+                         Margin="0,5,0,10"
+                         TextChanged="Contact_TextChanged"/>
+                <TextBlock Text="Phone"/>
+                <TextBox x:Name="PhoneTextBox"
+                         Height="35"
+                         Margin="0,5,0,10"
+                         TextChanged="Contact_TextChanged"/>
+                <TextBlock Text="Email"/>
+                <TextBox x:Name="EmailTextBox"
+                         Height="35"
+                         Margin="0,5,0,10"
+                         TextChanged="Contact_TextChanged"/>
+                <TextBlock x:Name="ValidationText"
+                           Foreground="Red"
+                           TextWrapping="Wrap"
+                           Margin="0,5,0,20"/>
+                <Separator Margin="0,5,0,15"/>
+                <TextBlock Text="Your final configuration"
+                           FontSize="19"
+                           FontWeight="Bold"
+                           Margin="0,0,0,15"/>
+                <TextBlock x:Name="ModelText"
+                           FontSize="15"
+                           Margin="0,4"/>
+                <TextBlock x:Name="EngineText"
+                           FontSize="15"
+                           Margin="0,4"/>
+                <TextBlock x:Name="ColorText"
+                           FontSize="15"
+                           Margin="0,4"/>
+                <TextBlock x:Name="OptionsText"
+                           FontSize="15"
+                           TextWrapping="Wrap"
+                           Margin="0,4"/>
+                <TextBlock x:Name="TotalPriceText"
+                           FontSize="17"
+                           FontWeight="Bold"
+                           Margin="0,15,0,4"/>
+                <TextBlock x:Name="DownPaymentText"
+                           FontSize="15"
+                           Margin="0,4"/>
+                <TextBlock x:Name="CreditAmountText"
+                           FontSize="15"
+                           Margin="0,4"/>
+                <TextBlock x:Name="MonthlyPaymentText"
+                           FontSize="19"
+                           FontWeight="Bold"
+                           Foreground="Green"
+                           Margin="0,8,0,15"/>
+            </StackPanel>
+            <Grid Grid.Row="2" Margin="0,20,0,0">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <Button Content="Back"
+                        Width="150"
+                        Height="40"
+                        HorizontalAlignment="Left"
+                        Click="Back_Click"/>
+                <Button x:Name="SubmitButton"
+                        Grid.Column="1"
+                        Content="Submit application"
+                        Width="170"
+                        Height="40"
+                        HorizontalAlignment="Right"
+                        IsEnabled="False"
+                        Click="Submit_Click"/>
+            </Grid>
+        </Grid>
+    </ScrollViewer>
 </Page>

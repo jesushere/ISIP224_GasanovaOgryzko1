@@ -8,7 +8,96 @@
       d:DesignHeight="450" d:DesignWidth="800"
       Title="Step4Page">
 
-    <Grid>
-        
+    <Grid Background="AliceBlue" Margin="30">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+        <TextBlock Text="4. Credit calculation"
+                   FontSize="24"
+                   FontWeight="Bold"
+                   Margin="0,0,0,25"/>
+        <Border Grid.Row="1"
+                Width="550"
+                Padding="25"
+                Background="White"
+                BorderBrush="Gray"
+                BorderThickness="1"
+                HorizontalAlignment="Center"
+                VerticalAlignment="Center">
+            <StackPanel>
+                <TextBlock Text="Car price"
+                           FontSize="17"
+                           FontWeight="Bold"/>
+                <TextBlock x:Name="CarPriceText"
+                           FontSize="20"
+                           Margin="0,5,0,25"/>
+                <TextBlock Text="Down payment"
+                           FontSize="17"
+                           FontWeight="Bold"/>
+                <Slider x:Name="DownPaymentSlider"
+                        Minimum="0"
+                        Maximum="100"
+                        Value="20"
+                        TickFrequency="10"
+                        IsSnapToTickEnabled="True"
+                        ValueChanged="DownPaymentSlider_ValueChanged"
+                        Margin="0,15,0,5"/>
+                <TextBlock x:Name="DownPaymentPercentText"
+                           FontSize="16"
+                           Margin="0,0,0,20"/>
+                <TextBlock Text="Loan term"
+                           FontSize="17"
+                           FontWeight="Bold"/>
+                <ComboBox x:Name="LoanMonthsComboBox"
+                          Height="35"
+                          Margin="0,10,0,20"
+                          SelectionChanged="LoanMonthsComboBox_SelectionChanged">
+                    <ComboBoxItem Content="12 months"/>
+                    <ComboBoxItem Content="24 months"/>
+                    <ComboBoxItem Content="36 months"/>
+                    <ComboBoxItem Content="48 months"/>
+                    <ComboBoxItem Content="60 months"/>
+                    <ComboBoxItem Content="72 months"/>
+                    <ComboBoxItem Content="84 months"/>
+                    <ComboBoxItem Content="96 months"/>
+                </ComboBox>
+                <Separator Margin="0,5,0,15"/>
+                <TextBlock x:Name="DownPaymentText"
+                           FontSize="16"
+                           Margin="0,5"/>
+                <TextBlock x:Name="CreditAmountText"
+                           FontSize="16"
+                           Margin="0,5"/>
+                <TextBlock x:Name="MonthlyPaymentText"
+                           FontSize="23"
+                           FontWeight="Bold"
+                           Foreground="Green"
+                           Margin="0,15,0,5"/>
+                <TextBlock Text="Calculation is approximate and does not include interest."
+                           FontSize="12"
+                           Foreground="Gray"
+                           TextWrapping="Wrap"
+                           Margin="0,10,0,0"/>
+            </StackPanel>
+        </Border>
+        <Grid Grid.Row="2" Margin="0,20,0,0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            <Button Content="Back"
+                    Width="150"
+                    Height="40"
+                    HorizontalAlignment="Left"
+                    Click="Back_Click"/>
+            <Button Grid.Column="1"
+                    Content="Next"
+                    Width="150"
+                    Height="40"
+                    HorizontalAlignment="Right"
+                    Click="Next_Click"/>
+        </Grid>
     </Grid>
 </Page>

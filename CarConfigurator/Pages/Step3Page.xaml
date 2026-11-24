@@ -8,7 +8,83 @@
       d:DesignHeight="450" d:DesignWidth="800"
       Title="Step3Page">
 
-    <Grid>
-        
+    <Grid Margin="30" Background="AliceBlue">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+        <TextBlock Text="3. Price calculation"
+                   FontSize="24"
+                   FontWeight="Bold"
+                   Margin="0,0,0,25"/>
+        <Border Grid.Row="1"
+                Width="550"
+                Padding="25"
+                Background="White"
+                BorderBrush="Gray"
+                BorderThickness="1"
+                HorizontalAlignment="Center"
+                VerticalAlignment="Center">
+            <StackPanel>
+                <TextBlock Text="Your car configuration"
+                           FontSize="21"
+                           FontWeight="Bold"
+                           Margin="0,0,0,20"/>
+                <TextBlock x:Name="ModelText"
+                           FontSize="17"
+                           Margin="0,5"/>
+                <TextBlock x:Name="EngineText"
+                           FontSize="17"
+                           Margin="0,5"/>
+                <TextBlock x:Name="ColorText"
+                           FontSize="17"
+                           Margin="0,5"/>
+                <TextBlock Text="Additional options:"
+                           FontSize="17"
+                           FontWeight="Bold"
+                           Margin="0,15,0,5"/>
+                <TextBlock x:Name="OptionsText"
+                           FontSize="16"
+                           TextWrapping="Wrap"
+                           Margin="0,0,0,15"/>
+                <Separator Margin="0,5,0,10"/>
+                <TextBlock x:Name="BasePriceText"
+                           FontSize="16"
+                           Margin="0,5"/>
+                <TextBlock x:Name="EnginePriceText"
+                           FontSize="16"
+                           Margin="0,5"/>
+                <TextBlock x:Name="ColorPriceText"
+                           FontSize="16"
+                           Margin="0,5"/>
+                <TextBlock x:Name="OptionsPriceText"
+                           FontSize="16"
+                           Margin="0,5"/>
+                <Separator Margin="0,15,0,10"/>
+                <TextBlock x:Name="TotalPriceText"
+                           FontSize="24"
+                           FontWeight="Bold"
+                           Foreground="Green"
+                           Margin="0,5"/>
+            </StackPanel>
+        </Border>
+        <Grid Grid.Row="2" Margin="0,20,0,0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            <Button Content="Back"
+                    Width="150"
+                    Height="40"
+                    HorizontalAlignment="Left"
+                    Click="Back_Click"/>
+            <Button Grid.Column="1"
+                    Content="Next"
+                    Width="150"
+                    Height="40"
+                    HorizontalAlignment="Right"
+                    Click="Next_Click"/>
+        </Grid>
     </Grid>
 </Page>

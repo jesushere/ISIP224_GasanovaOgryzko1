@@ -8,7 +8,48 @@
       d:DesignHeight="450" d:DesignWidth="800"
       Title="Step1Page">
 
-    <Grid>
-        
+    <Grid Background="AliceBlue" Margin="30">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+        <TextBlock Text="1. Choose your car"
+                   FontSize="24"
+                   FontWeight="Bold"
+                   Margin="0,0,0,25"/>
+        <StackPanel Grid.Row="1"
+                    Width="550"
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Center">
+            <TextBlock Text="Car model"
+                       FontSize="17"
+                       FontWeight="Bold"
+                       Margin="0,0,0,8"/>
+            <ComboBox x:Name="ModelComboBox"
+                      Height="38"
+                      FontSize="16"
+                      SelectionChanged="ModelComboBox_SelectionChanged"/>
+            <TextBlock x:Name="BasePriceText"
+                       FontSize="16"
+                       Margin="0,10,0,25"/>
+            <TextBlock Text="Engine type"
+                       FontSize="17"
+                       FontWeight="Bold"
+                       Margin="0,0,0,8"/>
+            <ComboBox x:Name="EngineComboBox"
+                      Height="38"
+                      FontSize="16"
+                      SelectionChanged="EngineComboBox_SelectionChanged"/>
+            <TextBlock x:Name="EnginePriceText"
+                       FontSize="16"
+                       Margin="0,10,0,0"/>
+            <Button Grid.Row="2"
+                Content="Next"
+                Width="150"
+                Height="40"
+                HorizontalAlignment="Right"
+                Click="Next_Click"/>
+        </StackPanel>
     </Grid>
 </Page>

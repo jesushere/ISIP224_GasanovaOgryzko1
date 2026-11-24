@@ -8,7 +8,93 @@
       d:DesignHeight="450" d:DesignWidth="800"
       Title="Step2Page">
 
-    <Grid>
-        
+    <Grid Background="AliceBlue" Margin="30">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+        <TextBlock Text="2. Choose color and options"
+                   FontSize="24"
+                   FontWeight="Bold"
+                   Margin="0,0,0,25"/>
+        <ScrollViewer Grid.Row="1">
+            <StackPanel Width="550"
+                        HorizontalAlignment="Center">
+                <TextBlock Text="Body color"
+                           FontSize="18"
+                           FontWeight="Bold"
+                           Margin="0,0,0,10"/>
+                <ComboBox x:Name="ColorComboBox"
+                          Height="30"
+                          FontSize="16"
+                          SelectionChanged="ColorComboBox_SelectionChanged"/>
+                <TextBlock x:Name="ColorPriceText"
+                           Margin="0,10,0,25"
+                           FontSize="16"/>
+                <TextBlock Text="Additional options"
+                           FontSize="18"
+                           FontWeight="Bold"
+                           Margin="0,0,0,10"/>
+                <Border Background="White"
+                        BorderBrush="Gray"
+                        BorderThickness="1"
+                        Padding="15">
+                    <StackPanel>
+                        <CheckBox x:Name="ClimateCheckBox"
+                                  Content="Climate control"
+                                  FontSize="16"
+                                  Margin="0,8"
+                                  Checked="Option_Checked"
+                                  Unchecked="Option_Checked"/>
+                        <CheckBox x:Name="HeatedSeatsCheckBox"
+                                  Content="Heated seats"
+                                  FontSize="16"
+                                  Margin="0,8"
+                                  Checked="Option_Checked"
+                                  Unchecked="Option_Checked"/>
+                        <CheckBox x:Name="CameraCheckBox"
+                                  Content="Rear view camera"
+                                  FontSize="16"
+                                  Margin="0,8"
+                                  Checked="Option_Checked"
+                                  Unchecked="Option_Checked"/>
+                        <CheckBox x:Name="LeatherCheckBox"
+                                  Content="Leather interior"
+                                  FontSize="16"
+                                  Margin="0,8"
+                                  Checked="Option_Checked"
+                                  Unchecked="Option_Checked"/>
+                        <CheckBox x:Name="SoundCheckBox"
+                                  Content="Premium audio system"
+                                  FontSize="16"
+                                  Margin="0,8"
+                                  Checked="Option_Checked"
+                                  Unchecked="Option_Checked"/>
+                    </StackPanel>
+                </Border>
+                <TextBlock x:Name="OptionsPriceText"
+                           FontSize="17"
+                           FontWeight="Bold"
+                           Margin="0,15,0,0"/>
+            </StackPanel>
+        </ScrollViewer>
+        <Grid Grid.Row="2" Margin="0,20,0,0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            <Button Content="Back"
+                    Width="150"
+                    Height="40"
+                    HorizontalAlignment="Left"
+                    Click="Back_Click"/>
+            <Button Grid.Column="1"
+                    Content="Next"
+                    Width="150"
+                    Height="40"
+                    HorizontalAlignment="Right"
+                    Click="Next_Click"/>
+        </Grid>
     </Grid>
 </Page>

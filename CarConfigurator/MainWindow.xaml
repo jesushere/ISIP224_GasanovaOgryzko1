@@ -5,8 +5,29 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:CarConfigurator"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
-    <Grid>
-
+        Title="Car Configuration" Height="700" Width="1000" MinHeight="600" MinWidth="850" WindowStartupLocation="CenterScreen">
+    <Grid Background="AliceBlue">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <StackPanel Margin="25,20,25,10">
+            <TextBlock Text="CAR CONFIGURATOR"
+                       FontSize="26"
+                       FontWeight="Bold"/>
+            <TextBlock x:Name="StepText"
+                       Text="Step 1 of 5"
+                       FontSize="15"
+                       Margin="0,10,0,5"/>
+            <ProgressBar x:Name="StepProgress"
+                         Minimum="1"
+                         Maximum="5"
+                         Value="1"
+                         Height="12"/>
+        </StackPanel>
+        <Frame x:Name="MainFrame"
+               Grid.Row="2"
+               NavigationUIVisibility="Hidden"/>
     </Grid>
 </Window>
