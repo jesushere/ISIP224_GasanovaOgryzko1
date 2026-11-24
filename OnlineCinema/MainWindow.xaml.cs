@@ -8,6 +8,10 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using OnlineCinema.Pages;
+using System.Windows;
+using System;
+
 
 namespace OnlineCinema
 {
@@ -17,7 +21,16 @@ namespace OnlineCinema
         {
             InitializeComponent();
 
-            DatabaseInitializer.Initialize();
+            try
+            {
+                DatabaseInitializer.Initialize();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "Database error", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+
+            MainFrame.Navigate(new LoginPage());
         }
     }
 }

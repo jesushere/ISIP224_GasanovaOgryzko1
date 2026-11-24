@@ -96,6 +96,13 @@ namespace OnlineCinema
 
                 Core.Context.SaveChanges();
             }
+            foreach (var movie in Core.Context.Movies)
+            {
+                movie.PosterPath = GetPosterPath(movie.Title);
+            }
+
+            Core.Context.SaveChanges();
+
             if (!Core.Context.Halls.Any())
             {
                 Core.Context.Halls.AddRange(
@@ -105,15 +112,20 @@ namespace OnlineCinema
                     );
                 Core.Context.SaveChanges();
             }
-            if (!Core.Context.Seats.Any())
-            {
-                var halls = Core.Context.Halls.ToList();
 
-                foreach(var hall in halls)
+            var halls = Core.Context.Halls.ToList();
+
+            foreach (var hall in halls)
+            {
+                for (int row = 1; row <= 10; row++)
                 {
-                    for (int row = 1; row <= 10; row++)
+                    for (int seat = 1; seat <= 24; seat++)
                     {
-                        for(int seat = 1; seat <= 24; seat++)
+                        bool exists = Core.Context.Seats.Any(s =>
+                            s.HallId == hall.Id &&
+                            s.RowNumber == row &&
+                            s.SeatNumber == seat);
+                        if (!exists)
                         {
                             Core.Context.Seats.Add(new Seat
                             {
@@ -124,17 +136,18 @@ namespace OnlineCinema
                         }
                     }
                 }
-                Core.Context.SaveChanges();
             }
+            Core.Context.SaveChanges();
+
             if (!Core.Context.Sessions.Any())
             {
                 var movies = Core.Context.Movies.ToList();
-                var halls = Core.Context.Halls.ToList();
+                var sessionHalls = Core.Context.Halls.ToList();
 
                 for(int i=0; i<movies.Count; i++)
                 {
-                    var hall = halls[i%halls.Count];
-
+                    var hall = sessionHalls[i%sessionHalls.Count];
+                    
                     Core.Context.Sessions.Add(new Session
                     {
                         MovieId = movies[i].Id,
@@ -185,7 +198,8 @@ namespace OnlineCinema
                 Description = description,
                 Rating = rating,
                 AgeRating = ageRating,
-                StartDate = DateTime.Today.AddDays(-7)
+                StartDate = DateTime.Today.AddDays(-7),
+                PosterPath = GetPosterPath(title)
             };
             foreach(var genreName in genreNames)
             {
@@ -195,6 +209,23 @@ namespace OnlineCinema
                 });
             }
             Core.Context.Movies.Add(movie);
+        }
+        private static string GetPosterPath(string title) 
+        {
+            switch (title)
+            {
+                case "Fight Club": return "/Images/fightclub.jpg";
+                case "Green Book": return "/Images/greenbook.jpg";
+                case "Real Steel": return "/Images/realsteel.jpg";
+                case "Drive": return "/Images/drive.jpg";
+                case "Fast & Furious": return "/Images/fastfurious.jpg";
+                case "John Wick": return "/Images/johnwick.jpg";
+                case "The Wolf of Wall Street": return "/Images/wolfofwallstreet.jpg";
+                case "Joker": return "/Images/joker.jpg";
+                case "Taxi Driver": return "/Images/taxidriver.jpg";
+                case "Se7en": return "/Images/seven.jpg";
+                default: return "";
+            }
         }
     }
 }

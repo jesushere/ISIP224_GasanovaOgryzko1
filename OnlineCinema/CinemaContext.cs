@@ -10,6 +10,10 @@ namespace OnlineCinema
 {
     public class CinemaContext:DbContext
     {
+        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        {
+            optionsBuilder.UseSqlServer("Data Source=localhost\\SQLEXPRESS02;Initial Catalog=CinemaDb;Integrated Security=True;Trust Server Certificate=True");
+        }
         public CinemaContext()
         {
         }

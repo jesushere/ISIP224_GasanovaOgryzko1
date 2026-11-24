@@ -11,5 +11,8 @@ namespace OnlineCinema
     {
         public static CinemaContext Context = new CinemaContext();
         public static User? CurrentUser;
+        public static Movie SelectedMovie;
+        public static Session SelectedSession;
+        public static Seat SelectedSeat;
     }
 }

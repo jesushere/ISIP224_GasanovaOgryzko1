@@ -9,6 +9,23 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="Images\drive.jpg" />
+    <None Remove="Images\fastfurious.jpg" />
+    <None Remove="Images\fightclub.jpg" />
+    <None Remove="Images\greenbook.jpg" />
+    <None Remove="Images\johnwick.jpg" />
+    <None Remove="Images\joker.jpg" />
+    <None Remove="Images\realsteel.jpg" />
+    <None Remove="Images\seven.jpg" />
+    <None Remove="Images\taxidriver.jpg" />
+    <None Remove="Images\wolfofwallstreet.jpg" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="Images\realsteel.jpg" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="8.0.20" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="8.0.20">
       <PrivateAssets>all</PrivateAssets>
@@ -19,6 +36,18 @@
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="Images\drive.jpg" />
+    <Resource Include="Images\fastfurious.jpg" />
+    <Resource Include="Images\fightclub.jpg" />
+    <Resource Include="Images\greenbook.jpg" />
+    <Resource Include="Images\johnwick.jpg" />
+    <Resource Include="Images\joker.jpg" />
+    <Resource Include="Images\seven.jpg" />
+    <Resource Include="Images\taxidriver.jpg" />
+    <Resource Include="Images\wolfofwallstreet.jpg" />
   </ItemGroup>
 
 </Project>
